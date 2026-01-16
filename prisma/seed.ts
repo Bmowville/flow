@@ -68,6 +68,50 @@ async function main() {
           { name: "Notion", status: "Queued" }
         ],
       },
+      pipelineRoles: {
+        create: [
+          { title: "Senior Frontend Engineer", company: "Northwind", stage: "Screen", priority: "High" },
+          { title: "Product Engineer", company: "Fabrikam", stage: "Onsite", priority: "Medium" },
+          { title: "Fullstack Engineer", company: "Contoso", stage: "Applied", priority: "Low" }
+        ],
+      },
+      focusBlocks: {
+        create: [
+          {
+            title: "Portfolio polish",
+            startAt: new Date(Date.now() + 1000 * 60 * 60 * 2),
+            endAt: new Date(Date.now() + 1000 * 60 * 60 * 3),
+            notes: "Finalize case study copy",
+            userId: user.id,
+          },
+          {
+            title: "Interview prep",
+            startAt: new Date(Date.now() + 1000 * 60 * 60 * 5),
+            endAt: new Date(Date.now() + 1000 * 60 * 60 * 6),
+            notes: "System design review",
+            userId: user.id,
+          },
+        ],
+      },
+      automations: {
+        create: [
+          {
+            title: "Auto-followup reminders",
+            description: "Create a reminder 48h after a recruiter reply",
+            status: "Enabled",
+          },
+          {
+            title: "Weekly pipeline summary",
+            description: "Send status digest every Friday 5pm",
+            status: "Enabled",
+          },
+          {
+            title: "Focus block guard",
+            description: "Decline meetings during focus blocks",
+            status: "Paused",
+          },
+        ],
+      },
       activity: {
         create: [
           {
@@ -131,6 +175,20 @@ async function main() {
       },
       integrations: {
         create: [{ name: "Greenhouse", status: "Connected", lastSyncedAt: new Date() }],
+      },
+      pipelineRoles: {
+        create: [
+          { title: "Staff Frontend", company: "Adventure Works", stage: "Screen", priority: "High" },
+        ],
+      },
+      automations: {
+        create: [
+          {
+            title: "Auto-score inbound roles",
+            description: "Tag inbound roles by match score",
+            status: "Enabled",
+          },
+        ],
       },
       members: {
         create: [{ userId: user.id, role: "Admin" }],

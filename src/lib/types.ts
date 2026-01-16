@@ -38,3 +38,27 @@ export type Integration = {
   status: string;
   lastSyncedAt: string | null;
 };
+
+export type PipelineRole = {
+  id: string;
+  title: string;
+  company: string;
+  stage: string;
+  priority: string;
+  createdAt: string;
+};
+
+export type FocusBlock = {
+  id: string;
+  title: string;
+  startAt: string;
+  endAt: string;
+  notes: string;
+};
+
+export type Automation = {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+};

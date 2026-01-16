@@ -19,6 +19,9 @@ model Workspace {
   integrations Integration[]
   members   WorkspaceMember[]
   currentUsers User[]  @relation("CurrentWorkspace")
+  pipelineRoles PipelineRole[]
+  focusBlocks FocusBlock[]
+  automations Automation[]
 }
 
 model User {
@@ -31,6 +34,7 @@ model User {
   memberships        WorkspaceMember[]
   tasks              Task[]
   activity           Activity[]
+  focusBlocks         FocusBlock[]
 
   currentWorkspace Workspace? @relation("CurrentWorkspace", fields: [currentWorkspaceId], references: [id])
 }
@@ -96,6 +100,43 @@ model Integration {
   name        String
   status      String
   lastSyncedAt DateTime?
+  workspaceId String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model PipelineRole {
+  id          String   @id @default(cuid())
+  title       String
+  company     String
+  stage       String
+  priority    String
+  createdAt   DateTime @default(now())
+  workspaceId String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model FocusBlock {
+  id          String   @id @default(cuid())
+  title       String
+  startAt     DateTime
+  endAt       DateTime
+  notes       String
+  createdAt   DateTime @default(now())
+  workspaceId String
+  userId      String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Automation {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  status      String
+  createdAt   DateTime @default(now())
   workspaceId String
 
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)

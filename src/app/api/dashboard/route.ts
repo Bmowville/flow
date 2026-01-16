@@ -116,7 +116,7 @@ export async function GET() {
 
     const workspaceId = refreshedUser.currentWorkspaceId;
 
-    const [workspaces, widgets, tasks, activity, integrations] = await Promise.all([
+    const [workspaces, widgets, tasks, activity, integrations, pipelineRoles, focusBlocks, automations] = await Promise.all([
       prisma.workspaceMember.findMany({
         where: { userId },
         include: { workspace: true },
@@ -139,6 +139,18 @@ export async function GET() {
         where: { workspaceId },
         orderBy: { name: "asc" },
       }),
+      prisma.pipelineRole.findMany({
+        where: { workspaceId },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.focusBlock.findMany({
+        where: { workspaceId, userId },
+        orderBy: { startAt: "asc" },
+      }),
+      prisma.automation.findMany({
+        where: { workspaceId },
+        orderBy: { createdAt: "desc" },
+      }),
     ]);
 
     return NextResponse.json({
@@ -152,6 +164,9 @@ export async function GET() {
       tasks,
       activity,
       integrations,
+      pipelineRoles,
+      focusBlocks,
+      automations,
     });
   } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
