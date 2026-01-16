@@ -8,6 +8,9 @@ export default async function SignInPage() {
   if (session?.user) {
     redirect("/");
   }
+  const showGitHub = Boolean(
+    process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
+  );
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-100 px-6 py-16 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-10">
@@ -20,7 +23,7 @@ export default async function SignInPage() {
             credentials to explore the dashboard.
           </p>
         </div>
-        <SignInForm />
+        <SignInForm showGitHub={showGitHub} />
       </div>
     </div>
   );

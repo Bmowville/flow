@@ -10,14 +10,111 @@ export async function GET() {
       include: { currentWorkspace: true },
     });
 
-    if (!user?.currentWorkspaceId) {
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const memberships = await prisma.workspaceMember.findMany({
+      where: { userId },
+      include: { workspace: true },
+      orderBy: { joinedAt: "asc" },
+    });
+
+    if (!user.currentWorkspaceId) {
+      if (memberships.length === 0) {
+        const workspace = await prisma.workspace.create({
+          data: {
+            name: "SignalBoard HQ",
+            slug: `signalboard-${userId.slice(0, 6)}`,
+            owner: user.email,
+            widgets: {
+              create: [
+                {
+                  title: "GitHub Pulse",
+                  type: "github",
+                  status: "healthy",
+                  value: "47 commits",
+                  description: "8 repos updated in the last 24h",
+                  trend: "+18%",
+                  position: 1,
+                },
+                {
+                  title: "Calendar Focus",
+                  type: "calendar",
+                  status: "attention",
+                  value: "21h deep work",
+                  description: "3 blocks need rescheduling",
+                  trend: "-6%",
+                  position: 2,
+                },
+                {
+                  title: "Recruiter Outreach",
+                  type: "crm",
+                  status: "healthy",
+                  value: "12 follow-ups",
+                  description: "2 high-priority messages due",
+                  trend: "+9%",
+                  position: 3,
+                },
+              ],
+            },
+            integrations: {
+              create: [
+                { name: "GitHub", status: "Connected", lastSyncedAt: new Date() },
+                { name: "LinkedIn", status: "Needs review" },
+                { name: "Google Calendar", status: "Connected", lastSyncedAt: new Date() },
+              ],
+            },
+            tasks: {
+              create: [
+                {
+                  title: "Polish resume narrative",
+                  detail: "Align outcomes with recruiter feedback",
+                  userId,
+                },
+              ],
+            },
+            activity: {
+              create: [
+                {
+                  title: "Workspace created",
+                  detail: "Demo workspace initialized",
+                  type: "seed",
+                  userId,
+                },
+              ],
+            },
+            members: {
+              create: [{ userId, role: "Owner" }],
+            },
+          },
+        });
+
+        await prisma.user.update({
+          where: { id: userId },
+          data: { currentWorkspaceId: workspace.id },
+        });
+      } else {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { currentWorkspaceId: memberships[0].workspace.id },
+        });
+      }
+    }
+
+    const refreshedUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { currentWorkspaceId: true },
+    });
+
+    if (!refreshedUser?.currentWorkspaceId) {
       return NextResponse.json(
         { error: "No workspace selected" },
         { status: 400 }
       );
     }
 
-    const workspaceId = user.currentWorkspaceId;
+    const workspaceId = refreshedUser.currentWorkspaceId;
 
     const [workspaces, widgets, tasks, activity, integrations] = await Promise.all([
       prisma.workspaceMember.findMany({

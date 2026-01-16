@@ -5,7 +5,11 @@ import { signIn } from "next-auth/react";
 import { Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function SignInForm() {
+type SignInFormProps = {
+  showGitHub: boolean;
+};
+
+export function SignInForm({ showGitHub }: SignInFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDemoSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,14 +35,16 @@ export function SignInForm() {
         </p>
       </div>
 
-      <button
-        type="button"
-        onClick={() => signIn("github", { callbackUrl: "/" })}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:border-slate-700 dark:bg-white dark:text-slate-900"
-      >
-        <Github size={16} />
-        Continue with GitHub
-      </button>
+      {showGitHub && (
+        <button
+          type="button"
+          onClick={() => signIn("github", { callbackUrl: "/" })}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:border-slate-700 dark:bg-white dark:text-slate-900"
+        >
+          <Github size={16} />
+          Continue with GitHub
+        </button>
+      )}
 
       <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-400">
         <span className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
