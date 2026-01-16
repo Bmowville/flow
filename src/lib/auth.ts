@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { prisma } from "@/lib/prisma";
 
 const demoUser = {
   id: "demo-user",
@@ -35,6 +36,29 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    async signIn({ user }) {
+      if (!user?.email) return false;
+      const dbUser = await prisma.user.upsert({
+        where: { email: user.email },
+        update: {
+          name: user.name ?? user.email,
+          image: user.image ?? "",
+        },
+        create: {
+          email: user.email,
+          name: user.name ?? user.email,
+          image: user.image ?? "",
+        },
+      });
+      user.id = dbUser.id;
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user?.id) {
+        token.sub = user.id;
+      }
+      return token;
+    },
     async session({ session, token }) {
       if (token?.sub) {
         session.user = {
