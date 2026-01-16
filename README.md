@@ -58,8 +58,7 @@ npm run test:e2e
 - `npm run prisma:seed` — seed local data
 
 ## Screenshots
-Add screenshots of the dashboard and sign-in flow here. (Placeholders — replace with real images.)
 
-- Dashboard overview
-- Activity timeline and widgets
-- Authentication screen
+<img width="1000" height="503" alt="login" src="https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d" />
+<img width="1904" height="957" alt="screen" src="https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a" />
+
