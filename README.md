@@ -8,17 +8,21 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 - Integrations connect/disconnect with `lastSyncedAt`
 - Tasks CRUD with activity logging
 - Theme toggle with persistent preference
-- NextAuth demo sign-in with GitHub OAuth and credentials provider
+- Credentials sign-in is the default; GitHub OAuth appears only if configured
 - Prisma + SQLite schema and seed data for v1 functionality
 - Unit tests (Vitest) and E2E tests (Playwright)
 
-## Quick Start
+## Quick Start (Local)
 1. Install dependencies:
 	- `npm install`
 2. Create `.env.local` from `.env.example` and fill secrets.
-2. Start the dev server:
+3. Initialize SQLite and seed:
+	- `npm run db:generate`
+	- `npm run db:migrate`
+	- `npm run db:seed`
+4. Start the dev server:
 	- `npm run dev`
-3. Open the app at `http://localhost:3000`.
+5. Open the app at `http://localhost:3000`.
 
 ## Environment
 Create a `.env.local` file with the following values:
@@ -26,6 +30,7 @@ Create a `.env.local` file with the following values:
 ```
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=replace-with-a-secret
+DATABASE_URL="file:./dev.db"
 GITHUB_CLIENT_ID=replace-with-github-client-id
 GITHUB_CLIENT_SECRET=replace-with-github-client-secret
 ```
@@ -35,7 +40,7 @@ Demo credentials:
 - Password: `signalboard`
 
 ## Database
-SignalBoard uses Prisma + SQLite for tasks, activity, integrations, and workspace preferences locally. For production, use Postgres (Neon/Supabase).
+SignalBoard uses Prisma + SQLite for local development. Production should use Postgres (Neon/Supabase).
 
 ```
 npm run prisma:generate
@@ -59,23 +64,19 @@ npm run test:e2e
 - `npm run db:deploy` — run migrations in production
 - `npm run db:seed` — seed local data
 
-## Deploy to Vercel
+## Deploy to Vercel (Postgres)
 1. Create a Postgres database (Neon or Supabase) and copy the connection string.
 2. In Vercel, set environment variables:
 	- `DATABASE_URL` (Postgres)
 	- `NEXTAUTH_URL` (your production URL)
 	- `NEXTAUTH_SECRET`
+	- `PRISMA_SCHEMA=prisma/postgres/schema.prisma`
 	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
-3. Set `PRISMA_SCHEMA=prisma/postgres/schema.prisma` in Vercel env vars.
-4. Deploy. Vercel will run `vercel-build` which executes Prisma generate + migrations.
+3. Deploy. Vercel runs `vercel-build`, which executes Prisma generate + migrations.
+4. First login will auto-seed demo data if the database is empty.
 
-## Local Run (SQLite)
-```
-npm run db:generate
-npm run db:migrate
-npm run db:seed
-npm run dev
-```
+## Health Check
+`/api/health` verifies DB connectivity.
 
 ## Screenshots
 
