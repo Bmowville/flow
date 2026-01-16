@@ -1,13 +1,15 @@
 # SignalBoard
 
-SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with mocked integrations, analytics widgets, and a guided onboarding flow. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
+SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
-- Mocked integrations with status states and rich insights
+- Workspace switcher persisted per user (SQLite)
+- Integrations connect/disconnect with `lastSyncedAt`
+- Tasks CRUD with activity logging
 - Theme toggle with persistent preference
 - NextAuth demo sign-in with GitHub OAuth and credentials provider
-- Prisma + SQLite schema and seed data for extension work
+- Prisma + SQLite schema and seed data for v1 functionality
 - Unit tests (Vitest) and E2E tests (Playwright)
 
 ## Quick Start
@@ -21,6 +23,7 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 Create a `.env.local` file with the following values:
 
 ```
+NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=replace-with-a-secret
 GITHUB_CLIENT_ID=replace-with-github-client-id
 GITHUB_CLIENT_SECRET=replace-with-github-client-secret
@@ -31,7 +34,7 @@ Demo credentials:
 - Password: `signalboard`
 
 ## Database
-SignalBoard includes a Prisma schema for future-backed features.
+SignalBoard uses Prisma + SQLite for tasks, activity, integrations, and workspace preferences.
 
 ```
 npm run prisma:generate
