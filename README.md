@@ -82,12 +82,4 @@ npm run dev
 <img width="1000" height="503" alt="login" src="https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d" />
 <img width="1904" height="957" alt="screen" src="https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a" />
 
-Recommended sizes:
-- Dashboard hero: 1600×900
-- Widgets panel: 1200×900
-- Sign-in screen: 1200×800
 
-Suggested shots:
-- Dashboard overview
-- Activity timeline and widgets
-- Authentication screen
