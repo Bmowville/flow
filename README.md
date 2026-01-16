@@ -2,6 +2,10 @@
 
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
+**Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright.
+
+**Live Demo:** _Add URL after deploy_
+
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
 - Workspace switcher persisted per user (SQLite)
@@ -39,13 +43,16 @@ Demo credentials:
 - Email: `demo@signalboard.ai`
 - Password: `signalboard`
 
+Optional:
+- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (enables GitHub OAuth)
+
 ## Database
 SignalBoard uses Prisma + SQLite for local development. Production should use Postgres (Neon/Supabase).
 
 ```
-npm run prisma:generate
-npm run prisma:migrate
-npm run prisma:seed
+npm run db:generate
+npm run db:migrate
+npm run db:seed
 ```
 
 ## Tests
@@ -70,17 +77,17 @@ npm run test:e2e
 	- `DATABASE_URL` (Postgres)
 	- `NEXTAUTH_URL` (your production URL)
 	- `NEXTAUTH_SECRET`
-	- `PRISMA_SCHEMA=prisma/postgres/schema.prisma`
 	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
-3. Deploy. Vercel runs `vercel-build`, which executes Prisma generate + migrations.
-4. First login will auto-seed demo data if the database is empty.
+3. If your deployment uses the Postgres Prisma schema file, set `PRISMA_SCHEMA=prisma/postgres/schema.prisma`.
+4. Deploy. Vercel runs `vercel-build` which executes `npm run db:generate && npm run db:deploy && next build`.
+5. First login will auto-seed demo data if the database is empty.
 
 ## Health Check
 `/api/health` verifies DB connectivity.
 
 ## Screenshots
 
-<img width="1000" height="503" alt="login" src="https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d" />
-<img width="1904" height="957" alt="screen" src="https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a" />
+![Login](https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d)
+![Dashboard](https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a)
 
 
