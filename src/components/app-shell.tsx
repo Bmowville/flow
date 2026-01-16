@@ -61,7 +61,7 @@ export function useAppShell() {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [state, setState] = useState<DashboardState>(emptyState);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -94,8 +94,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    loadDashboard();
-  }, [loadDashboard]);
+    if (status === "authenticated") {
+      loadDashboard();
+    }
+  }, [loadDashboard, status]);
 
   const handleWorkspaceSwitch = async (workspaceId: string) => {
     await fetch("/api/workspaces/current", {

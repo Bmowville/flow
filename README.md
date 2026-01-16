@@ -41,6 +41,8 @@ NEXTAUTH_SECRET=replace-with-a-long-random-secret
 DATABASE_URL="file:./dev.db"
 ```
 
+Keep `NEXTAUTH_SECRET` stable between restarts (changing it will invalidate existing sessions and require clearing auth cookies).
+
 Demo credentials:
 - Email: `demo@signalboard.ai`
 - Password: `signalboard`
