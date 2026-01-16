@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/auth-server";
 
 export async function PATCH(
-  _request: Request,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireUserId();
+    const { id } = await params;
     const integration = await prisma.integration.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!integration) {
@@ -20,7 +21,7 @@ export async function PATCH(
       integration.status === "Connected" ? "Disconnected" : "Connected";
 
     const updated = await prisma.integration.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         status: nextStatus,
         lastSyncedAt: nextStatus === "Connected" ? new Date() : null,

@@ -1,18 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/auth-server";
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userId = await requireUserId();
     const body = await request.json();
     const completed = body.completed as boolean | undefined;
 
+    const { id } = await params;
+
     const task = await prisma.task.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!task || task.userId !== userId) {
@@ -20,7 +22,7 @@ export async function PATCH(
     }
 
     const updated = await prisma.task.update({
-      where: { id: params.id },
+      where: { id },
       data: { completed: completed ?? task.completed },
     });
 
@@ -41,20 +43,21 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userId = await requireUserId();
+    const { id } = await params;
     const task = await prisma.task.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!task || task.userId !== userId) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    await prisma.task.delete({ where: { id: params.id } });
+    await prisma.task.delete({ where: { id } });
 
     await prisma.activity.create({
       data: {
