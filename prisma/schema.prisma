@@ -15,6 +15,37 @@ model Workspace {
   createdAt DateTime   @default(now())
   widgets   Widget[]
   activity  Activity[]
+  tasks     Task[]
+  integrations Integration[]
+  members   WorkspaceMember[]
+  currentUsers User[]  @relation("CurrentWorkspace")
+}
+
+model User {
+  id                 String             @id @default(cuid())
+  email              String             @unique
+  name               String
+  image              String?
+  currentWorkspaceId String?
+  createdAt          DateTime           @default(now())
+  memberships        WorkspaceMember[]
+  tasks              Task[]
+  activity           Activity[]
+
+  currentWorkspace Workspace? @relation("CurrentWorkspace", fields: [currentWorkspaceId], references: [id])
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  role        String
+  userId      String
+  workspaceId String
+  joinedAt    DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
 }
 
 model Widget {
@@ -22,6 +53,9 @@ model Widget {
   title       String
   type        String
   status      String
+  value       String
+  description String
+  trend       String
   position    Int
   workspaceId String
   createdAt   DateTime  @default(now())
@@ -33,7 +67,35 @@ model Activity {
   id          String   @id @default(cuid())
   title       String
   detail      String
-  timestamp   DateTime @default(now())
+  type        String
+  createdAt   DateTime @default(now())
+  workspaceId String
+  userId      String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  detail      String
+  completed   Boolean  @default(false)
+  dueAt       DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  workspaceId String
+  userId      String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Integration {
+  id          String   @id @default(cuid())
+  name        String
+  status      String
+  lastSyncedAt DateTime?
   workspaceId String
 
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
