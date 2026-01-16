@@ -39,7 +39,55 @@ Create a `.env.local` file with:
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=replace-with-a-long-random-secret
 DATABASE_URL="file:./dev.db"
+```
 
-# Optional (enables GitHub OAuth button)
-# GITHUB_CLIENT_ID=replace-with-github-client-id
-# GITHUB_CLIENT_SECRET=replace-with-github-client-secret
+Demo credentials:
+- Email: `demo@signalboard.ai`
+- Password: `signalboard`
+
+Optional:
+- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (enables GitHub OAuth)
+
+## Database
+SignalBoard uses Prisma + SQLite for local development. Production should use Postgres (Neon/Supabase).
+
+```
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
+
+## Tests
+```
+npm run test
+npm run test:e2e
+```
+
+## Scripts
+- `npm run dev` — start development server
+- `npm run build` — production build
+- `npm run start` — run production server
+- `npm run lint` — lint code
+- `npm run db:generate` — generate Prisma client
+- `npm run db:migrate` — create SQLite migration
+- `npm run db:deploy` — run migrations in production
+- `npm run db:seed` — seed local data
+
+## Deploy to Vercel (Postgres)
+1. Create a Postgres database (Neon or Supabase) and copy the connection string.
+2. In Vercel, set environment variables:
+	- `DATABASE_URL` (Postgres)
+	- `NEXTAUTH_URL` (your production URL)
+	- `NEXTAUTH_SECRET`
+	- `PRISMA_SCHEMA=prisma/postgres/schema.prisma`
+	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
+3. Deploy. Vercel runs `vercel-build` which executes `npm run db:generate && npm run db:deploy && next build`.
+4. First login will auto-seed demo data if the database is empty.
+
+## Health Check
+`/api/health` verifies DB connectivity.
+
+## Screenshots
+
+![Login](https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d)
+![Dashboard](https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a)
