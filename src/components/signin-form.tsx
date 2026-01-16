@@ -48,10 +48,14 @@ export function SignInForm() {
 
       <form className="space-y-4" onSubmit={handleDemoSignIn}>
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <label
+            htmlFor="demo-email"
+            className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+          >
             Email
           </label>
           <input
+            id="demo-email"
             name="email"
             type="email"
             defaultValue="demo@signalboard.ai"
@@ -59,10 +63,14 @@ export function SignInForm() {
           />
         </div>
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <label
+            htmlFor="demo-password"
+            className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+          >
             Password
           </label>
           <input
+            id="demo-password"
             name="password"
             type="password"
             defaultValue="signalboard"
