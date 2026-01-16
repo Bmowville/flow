@@ -1,14 +1,20 @@
 import { PlugZap } from "lucide-react";
-import { integrations } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import type { Integration } from "@/lib/types";
 
 const statusStyles: Record<string, string> = {
   Connected: "bg-emerald-500/10 text-emerald-500",
   "Needs review": "bg-amber-500/10 text-amber-500",
   Queued: "bg-slate-200/70 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
+  Disconnected: "bg-rose-500/10 text-rose-500",
 };
 
-export function IntegrationsPanel() {
+type IntegrationsPanelProps = {
+  integrations: Integration[];
+  onToggle: (id: string) => void;
+};
+
+export function IntegrationsPanel({ integrations, onToggle }: IntegrationsPanelProps) {
   return (
     <section className="rounded-2xl border border-white/10 bg-white/80 p-5 shadow-sm dark:bg-slate-950/60">
       <div className="flex items-center justify-between">
@@ -29,17 +35,22 @@ export function IntegrationsPanel() {
             <div>
               <p className="font-semibold">{integration.name}</p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {integration.detail}
+                {integration.lastSyncedAt
+                  ? `Last synced ${new Date(integration.lastSyncedAt).toLocaleString()}`
+                  : "Not synced yet"}
               </p>
             </div>
-            <span
+            <button
+              type="button"
+              onClick={() => onToggle(integration.id)}
               className={cn(
                 "rounded-full px-2 py-1 text-xs font-semibold",
-                statusStyles[integration.status]
+                statusStyles[integration.status] ??
+                  "bg-slate-200/70 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
               )}
             >
               {integration.status}
-            </span>
+            </button>
           </div>
         ))}
       </div>

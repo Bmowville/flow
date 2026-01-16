@@ -1,7 +1,15 @@
+"use client";
+
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function SearchBar({ className }: { className?: string }) {
+type SearchBarProps = {
+  value: string;
+  onChange: (value: string) => void;
+  className?: string;
+};
+
+export function SearchBar({ value, onChange, className }: SearchBarProps) {
   return (
     <div
       className={cn(
@@ -10,7 +18,12 @@ export function SearchBar({ className }: { className?: string }) {
       )}
     >
       <Search size={16} />
-      <span>Search workspaces, alerts, and teammates...</span>
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder="Search tasks and activity..."
+        className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 dark:text-slate-200"
+      />
     </div>
   );
 }

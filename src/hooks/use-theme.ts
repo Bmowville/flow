@@ -1,27 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 type ThemeMode = "light" | "dark";
 
+const THEME_KEY = "signalboard-theme";
+let cachedMode: ThemeMode | null = null;
+const listeners = new Set<() => void>();
+
+const getStoredTheme = (): ThemeMode => {
+  if (typeof window === "undefined") return "light";
+  if (cachedMode) return cachedMode;
+  const stored = window.localStorage.getItem(THEME_KEY) as ThemeMode | null;
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  cachedMode = stored ?? (prefersDark ? "dark" : "light");
+  return cachedMode;
+};
+
+const setTheme = (next: ThemeMode) => {
+  cachedMode = next;
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(THEME_KEY, next);
+    document.documentElement.classList.toggle("dark", next === "dark");
+  }
+  listeners.forEach((listener) => listener());
+};
+
+const subscribe = (listener: () => void) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+
 export function useThemeMode() {
-  const [mode, setMode] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return "light";
-    const stored = window.localStorage.getItem("signalboard-theme") as ThemeMode | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return stored ?? (prefersDark ? "dark" : "light");
-  });
+  const mode = useSyncExternalStore(subscribe, getStoredTheme, () => "light");
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", mode === "dark");
-    window.localStorage.setItem("signalboard-theme", mode);
+    if (typeof window !== "undefined") {
+      document.documentElement.classList.toggle("dark", mode === "dark");
+    }
   }, [mode]);
 
   const toggle = () => {
-    setMode((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
-      return next;
-    });
+    setTheme(mode === "dark" ? "light" : "dark");
   };
 
   return { mode, toggle };

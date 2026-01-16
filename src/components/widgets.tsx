@@ -1,6 +1,6 @@
 import { ArrowUpRight, CheckCircle2, AlertTriangle } from "lucide-react";
-import { widgets } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import type { Widget } from "@/lib/types";
 
 const statusMap = {
   healthy: {
@@ -15,7 +15,11 @@ const statusMap = {
   },
 };
 
-export function WidgetGrid() {
+type WidgetGridProps = {
+  widgets: Widget[];
+};
+
+export function WidgetGrid({ widgets }: WidgetGridProps) {
   return (
     <section className="grid gap-4 lg:grid-cols-2">
       {widgets.map((widget) => {

@@ -1,6 +1,13 @@
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { SignInForm } from "@/components/signin-form";
+import { authOptions } from "@/lib/auth";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  const session = await getServerSession(authOptions);
+  if (session?.user) {
+    redirect("/");
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-100 px-6 py-16 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-10">
