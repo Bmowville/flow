@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Workspace {
+  id        String     @id @default(cuid())
+  name      String
+  slug      String     @unique
+  owner     String
+  createdAt DateTime   @default(now())
+  widgets   Widget[]
+  activity  Activity[]
+}
+
+model Widget {
+  id          String    @id @default(cuid())
+  title       String
+  type        String
+  status      String
+  position    Int
+  workspaceId String
+  createdAt   DateTime  @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  title       String
+  detail      String
+  timestamp   DateTime @default(now())
+  workspaceId String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
