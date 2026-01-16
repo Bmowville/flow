@@ -27,6 +27,7 @@ export function DashboardClient() {
   const { data: session } = useSession();
   const [state, setState] = useState<DashboardState>(emptyState);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeNav, setActiveNav] = useState("Overview");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -127,6 +128,8 @@ export function DashboardClient() {
             workspaces={state.workspaces}
             currentWorkspaceId={state.currentWorkspaceId}
             onSwitch={handleWorkspaceSwitch}
+            activeNav={activeNav}
+            onNavChange={setActiveNav}
           />
           <main className="flex flex-col gap-6">
             <InsightStrip />

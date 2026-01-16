@@ -9,6 +9,9 @@ const demoUser = {
   email: "demo@signalboard.ai",
 };
 
+const devSecret =
+  process.env.NODE_ENV === "production" ? undefined : "signalboard-dev-secret";
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
@@ -34,7 +37,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: { strategy: "jwt" },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET ?? devSecret,
   callbacks: {
     async signIn({ user }) {
       if (!user?.email) return false;

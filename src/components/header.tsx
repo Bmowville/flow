@@ -37,14 +37,17 @@ export function Header({ searchQuery, onSearchChange, userName }: HeaderProps) {
         <button className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/80 text-slate-700 shadow-sm transition hover:bg-white dark:bg-slate-900/70 dark:text-slate-200">
           <Bell size={16} />
         </button>
+        <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white shadow-sm dark:bg-white dark:text-slate-900">
+          <CircleUserRound size={16} />
+          {userName ?? "Account"}
+        </div>
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/signin" })}
-          className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white shadow-sm dark:bg-white dark:text-slate-900"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/80 text-slate-700 shadow-sm transition hover:bg-white dark:bg-slate-900/70 dark:text-slate-200"
+          aria-label="Sign out"
         >
-          <CircleUserRound size={16} />
-          {userName ?? "Account"}
-          <LogOut size={14} />
+          <LogOut size={16} />
         </button>
       </div>
     </header>

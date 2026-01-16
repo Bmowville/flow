@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import type { WorkspaceSummary } from "@/lib/types";
 
 const navItems = [
-  { label: "Overview", icon: LayoutGrid, active: true },
+  { label: "Overview", icon: LayoutGrid },
   { label: "Pipeline", icon: Briefcase },
   { label: "Momentum", icon: LineChart },
   { label: "Focus", icon: CalendarCheck2 },
@@ -15,9 +15,17 @@ type SidebarProps = {
   workspaces: WorkspaceSummary[];
   currentWorkspaceId?: string | null;
   onSwitch: (workspaceId: string) => void;
+  activeNav: string;
+  onNavChange: (label: string) => void;
 };
 
-export function Sidebar({ workspaces, currentWorkspaceId, onSwitch }: SidebarProps) {
+export function Sidebar({
+  workspaces,
+  currentWorkspaceId,
+  onSwitch,
+  activeNav,
+  onNavChange,
+}: SidebarProps) {
   return (
     <aside className="flex h-full flex-col gap-6 rounded-2xl border border-white/10 bg-white/80 p-5 shadow-sm dark:bg-slate-950/60">
       <div>
@@ -53,9 +61,10 @@ export function Sidebar({ workspaces, currentWorkspaceId, onSwitch }: SidebarPro
           <button
             key={item.label}
             type="button"
+            onClick={() => onNavChange(item.label)}
             className={cn(
               "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900/60",
-              item.active &&
+              item.label === activeNav &&
                 "bg-slate-900 text-white shadow-sm hover:bg-slate-900 hover:text-white dark:bg-white dark:text-slate-900"
             )}
           >
