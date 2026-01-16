@@ -15,6 +15,7 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 ## Quick Start
 1. Install dependencies:
 	- `npm install`
+2. Create `.env.local` from `.env.example` and fill secrets.
 2. Start the dev server:
 	- `npm run dev`
 3. Open the app at `http://localhost:3000`.
@@ -34,7 +35,7 @@ Demo credentials:
 - Password: `signalboard`
 
 ## Database
-SignalBoard uses Prisma + SQLite for tasks, activity, integrations, and workspace preferences.
+SignalBoard uses Prisma + SQLite for tasks, activity, integrations, and workspace preferences locally. For production, use Postgres (Neon/Supabase).
 
 ```
 npm run prisma:generate
@@ -53,12 +54,40 @@ npm run test:e2e
 - `npm run build` — production build
 - `npm run start` — run production server
 - `npm run lint` — lint code
-- `npm run prisma:generate` — generate Prisma client
-- `npm run prisma:migrate` — create SQLite migration
-- `npm run prisma:seed` — seed local data
+- `npm run db:generate` — generate Prisma client
+- `npm run db:migrate` — create SQLite migration
+- `npm run db:deploy` — run migrations in production
+- `npm run db:seed` — seed local data
+
+## Deploy to Vercel
+1. Create a Postgres database (Neon or Supabase) and copy the connection string.
+2. In Vercel, set environment variables:
+	- `DATABASE_URL` (Postgres)
+	- `NEXTAUTH_URL` (your production URL)
+	- `NEXTAUTH_SECRET`
+	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
+3. Set `PRISMA_SCHEMA=prisma/postgres/schema.prisma` in Vercel env vars.
+4. Deploy. Vercel will run `vercel-build` which executes Prisma generate + migrations.
+
+## Local Run (SQLite)
+```
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
 
 ## Screenshots
 
 <img width="1000" height="503" alt="login" src="https://github.com/user-attachments/assets/7905c71e-c732-4342-9081-520ce5323c0d" />
 <img width="1904" height="957" alt="screen" src="https://github.com/user-attachments/assets/8cf30223-0788-4229-a484-38d504d3d24a" />
 
+Recommended sizes:
+- Dashboard hero: 1600×900
+- Widgets panel: 1200×900
+- Sign-in screen: 1200×800
+
+Suggested shots:
+- Dashboard overview
+- Activity timeline and widgets
+- Authentication screen
