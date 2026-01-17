@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, CircleUserRound, LogOut, Sparkles } from "lucide-react";
+import { Bell, CircleUserRound, HelpCircle, LogOut, Sparkles } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SearchBar } from "@/components/search";
@@ -9,9 +9,10 @@ type HeaderProps = {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   displayName: string;
+  onOpenAbout: () => void;
 };
 
-export function Header({ searchQuery, onSearchChange, displayName }: HeaderProps) {
+export function Header({ searchQuery, onSearchChange, displayName, onOpenAbout }: HeaderProps) {
   return (
     <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/80 px-6 py-4 shadow-sm backdrop-blur dark:bg-slate-950/60">
       <div className="flex items-center gap-3">
@@ -34,6 +35,14 @@ export function Header({ searchQuery, onSearchChange, displayName }: HeaderProps
 
       <div className="flex items-center gap-3">
         <ThemeToggle />
+        <button
+          type="button"
+          onClick={onOpenAbout}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/80 text-slate-700 shadow-sm transition hover:bg-white dark:bg-slate-900/70 dark:text-slate-200"
+          aria-label="About this demo"
+        >
+          <HelpCircle size={16} />
+        </button>
         <button className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/80 text-slate-700 shadow-sm transition hover:bg-white dark:bg-slate-900/70 dark:text-slate-200">
           <Bell size={16} />
         </button>

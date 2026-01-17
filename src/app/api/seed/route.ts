@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/auth-server";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    const body = await request.json().catch(() => ({}));
+    const mode = typeof body.mode === "string" ? body.mode : "full";
     const userId = await requireUserId();
     const memberships = await prisma.workspaceMember.findMany({
       where: { userId },
@@ -31,24 +33,32 @@ export async function POST() {
       prisma.focusBlock.count({ where: { workspaceId: primaryWorkspace.workspace.id, userId } }),
     ]);
 
-    if (taskCount === 0) {
+    const shouldSeedTasks = mode === "full" || mode === "tasks";
+    const shouldSeedActivity = mode === "full" || mode === "activity";
+    const shouldSeedFocus = mode === "full" || mode === "focus";
+    const shouldSeedPipeline = mode === "full" || mode === "pipeline" || mode === "pipeline-single";
+
+    if (shouldSeedTasks && taskCount < 3) {
       await prisma.task.createMany({
         data: [
           {
             title: "Send recruiter follow-up",
             detail: "Reply to Acme Talent with updated portfolio link",
+            completed: true,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
           },
           {
             title: "Draft outreach cadence",
             detail: "Prepare a 3-touch outreach sequence",
+            completed: false,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
           },
           {
             title: "Update case study metrics",
             detail: "Add impact numbers to the SignalBoard case study",
+            completed: false,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
           },
@@ -56,7 +66,7 @@ export async function POST() {
       });
     }
 
-    if (activityCount === 0) {
+    if (shouldSeedActivity && activityCount < 3) {
       await prisma.activity.createMany({
         data: [
           {
@@ -75,11 +85,19 @@ export async function POST() {
             workspaceId: primaryWorkspace.workspace.id,
             createdAt: new Date(now.getTime() - 1000 * 60 * 30),
           },
+          {
+            title: "Focus block scheduled",
+            detail: "Deep work block added for tomorrow",
+            type: "focus",
+            userId,
+            workspaceId: primaryWorkspace.workspace.id,
+            createdAt: new Date(now.getTime() - 1000 * 60 * 15),
+          },
         ],
       });
     }
 
-    if (focusCount === 0) {
+    if (shouldSeedFocus && focusCount === 0) {
       await prisma.focusBlock.create({
         data: {
           title: "Interview prep deep work",
@@ -92,12 +110,22 @@ export async function POST() {
       });
     }
 
-    if (recruitingWorkspace) {
+    if (recruitingWorkspace && shouldSeedPipeline) {
       const pipelineCount = await prisma.pipelineRole.count({
         where: { workspaceId: recruitingWorkspace.workspace.id },
       });
 
-      if (pipelineCount < 6) {
+      if (mode === "pipeline-single" && pipelineCount < 6) {
+        await prisma.pipelineRole.create({
+          data: {
+            title: "Senior Frontend Engineer",
+            company: "Northwind",
+            stage: "Screen",
+            priority: "High",
+            workspaceId: recruitingWorkspace.workspace.id,
+          },
+        });
+      } else if (pipelineCount < 2) {
         await prisma.pipelineRole.createMany({
           data: [
             {
@@ -111,34 +139,6 @@ export async function POST() {
               title: "Product Engineer",
               company: "Fabrikam",
               stage: "Onsite",
-              priority: "Medium",
-              workspaceId: recruitingWorkspace.workspace.id,
-            },
-            {
-              title: "Growth Engineer",
-              company: "Litware",
-              stage: "Applied",
-              priority: "Low",
-              workspaceId: recruitingWorkspace.workspace.id,
-            },
-            {
-              title: "Staff Frontend",
-              company: "Adventure Works",
-              stage: "Screen",
-              priority: "High",
-              workspaceId: recruitingWorkspace.workspace.id,
-            },
-            {
-              title: "Design Systems Lead",
-              company: "Contoso",
-              stage: "Offer",
-              priority: "High",
-              workspaceId: recruitingWorkspace.workspace.id,
-            },
-            {
-              title: "Fullstack Engineer",
-              company: "Tailspin",
-              stage: "Applied",
               priority: "Medium",
               workspaceId: recruitingWorkspace.workspace.id,
             },

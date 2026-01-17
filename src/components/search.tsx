@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -11,23 +10,6 @@ type SearchBarProps = {
 };
 
 export function SearchBar({ value, onChange, className }: SearchBarProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "/") return;
-      const target = event.target as HTMLElement | null;
-      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
-        return;
-      }
-      event.preventDefault();
-      inputRef.current?.focus();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
   return (
     <div
       className={cn(
@@ -37,7 +19,6 @@ export function SearchBar({ value, onChange, className }: SearchBarProps) {
     >
       <Search size={16} />
       <input
-        ref={inputRef}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search tasks and activity..."

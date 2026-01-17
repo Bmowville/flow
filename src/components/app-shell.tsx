@@ -1,11 +1,13 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { ToastStack, type Toast } from "@/components/toast";
+import { CommandPalette, type CommandPaletteItem } from "@/components/command-palette";
+import { AboutDemoDrawer } from "@/components/about-demo";
 import type {
   Activity,
   Automation,
@@ -35,6 +37,7 @@ const DISPLAY_NAME_KEY = "signalboard.displayName";
 const ONBOARDING_KEY = "signalboard.onboardingComplete";
 const TOUR_COMPLETED_KEY = "signalboard.tourCompleted";
 const TOUR_DISMISSED_KEY = "signalboard.tourDismissed";
+const DEMO_LOADED_KEY = "signalboard.demoLoaded";
 
 type DashboardState = typeof emptyState;
 
@@ -53,7 +56,11 @@ type AppShellContextValue = {
   completeTour: () => void;
   dismissTour: () => void;
   restartTour: () => void;
+  demoLoaded: boolean;
   handleLoadSampleData: () => Promise<void>;
+  handleAddSampleRoles: () => Promise<void>;
+  handleAddSingleRole: () => Promise<void>;
+  handleAddFocusBlock: () => Promise<void>;
   handleWorkspaceSwitch: (workspaceId: string) => Promise<void>;
   handleCreateTask: (title: string, detail: string) => Promise<void>;
   handleToggleTask: (id: string, completed: boolean) => Promise<void>;
@@ -77,6 +84,7 @@ export function useAppShell() {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { status } = useSession();
   const [state, setState] = useState<DashboardState>(emptyState);
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,6 +95,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
   const [tourDismissed, setTourDismissed] = useState(false);
+  const [demoLoaded, setDemoLoaded] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   const pushToast = useCallback((title: string, type: Toast["type"] = "info") => {
     const id = crypto.randomUUID();
@@ -125,6 +136,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     const storedOnboarding = window.localStorage.getItem(ONBOARDING_KEY);
     const storedTourCompleted = window.localStorage.getItem(TOUR_COMPLETED_KEY);
     const storedTourDismissed = window.localStorage.getItem(TOUR_DISMISSED_KEY);
+    const storedDemoLoaded = window.localStorage.getItem(DEMO_LOADED_KEY);
     if (storedName) {
       setDisplayName(storedName);
     }
@@ -136,6 +148,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
     if (storedTourDismissed === "true") {
       setTourDismissed(true);
+    }
+    if (storedDemoLoaded === "true") {
+      setDemoLoaded(true);
     }
   }, []);
 
@@ -188,31 +203,72 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     pushToast("Quick tour restarted", "info");
   }, [pushToast]);
 
-  const handleLoadSampleData = async () => {
-    await fetch("/api/seed", { method: "POST" });
-    pushToast("Sample data loaded", "success");
-    await loadDashboard();
-  };
-
-  const handleWorkspaceSwitch = async (workspaceId: string) => {
-    await fetch("/api/workspaces/current", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ workspaceId }),
-    });
-    pushToast("Workspace updated", "success");
-    await loadDashboard();
-  };
-
-  const handleCreateTask = async (title: string, detail: string) => {
-    await fetch("/api/tasks", {
+  const handleLoadSampleData = useCallback(async () => {
+    await fetch("/api/seed", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, detail }),
+      body: JSON.stringify({ mode: "full" }),
     });
-    pushToast("Task added", "success");
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(DEMO_LOADED_KEY, "true");
+    }
+    setDemoLoaded(true);
+    pushToast("Demo loaded — explore Pipeline + Momentum + Focus", "success");
     await loadDashboard();
-  };
+  }, [loadDashboard, pushToast]);
+
+  const handleAddSampleRoles = useCallback(async () => {
+    await fetch("/api/seed", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "pipeline" }),
+    });
+    await loadDashboard();
+  }, [loadDashboard]);
+
+  const handleAddSingleRole = useCallback(async () => {
+    await fetch("/api/seed", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "pipeline-single" }),
+    });
+    await loadDashboard();
+  }, [loadDashboard]);
+
+  const handleAddFocusBlock = useCallback(async () => {
+    await fetch("/api/seed", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "focus" }),
+    });
+    await loadDashboard();
+  }, [loadDashboard]);
+
+  const handleWorkspaceSwitch = useCallback(
+    async (workspaceId: string) => {
+      await fetch("/api/workspaces/current", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ workspaceId }),
+      });
+      pushToast("Workspace updated", "success");
+      await loadDashboard();
+    },
+    [loadDashboard, pushToast]
+  );
+
+  const handleCreateTask = useCallback(
+    async (title: string, detail: string) => {
+      await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, detail }),
+      });
+      pushToast("Task added", "success");
+      await loadDashboard();
+    },
+    [loadDashboard, pushToast]
+  );
 
   const handleToggleTask = async (id: string, completed: boolean) => {
     await fetch(`/api/tasks/${id}`, {
@@ -258,7 +314,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await loadDashboard();
   };
 
-  const handleResetDemo = async () => {
+  const handleResetDemo = useCallback(async () => {
     await fetch("/api/reset", { method: "POST" });
     pushToast("Demo reset", "warning");
     if (typeof window !== "undefined") {
@@ -266,13 +322,79 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       window.localStorage.removeItem(ONBOARDING_KEY);
       window.localStorage.removeItem(TOUR_COMPLETED_KEY);
       window.localStorage.removeItem(TOUR_DISMISSED_KEY);
+      window.localStorage.removeItem(DEMO_LOADED_KEY);
     }
     setDisplayName(DEFAULT_DISPLAY_NAME);
     setOnboardingComplete(false);
     setTourCompleted(false);
     setTourDismissed(false);
+    setDemoLoaded(false);
     await loadDashboard();
-  };
+  }, [loadDashboard, pushToast]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+        return;
+      }
+      if (event.key === "/") {
+        event.preventDefault();
+        setPaletteOpen(true);
+      }
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setPaletteOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const commandItems = useMemo<CommandPaletteItem[]>(() => {
+    const pageItems: CommandPaletteItem[] = [
+      { id: "nav-overview", label: "Go to Overview", onSelect: () => router.push("/") },
+      { id: "nav-pipeline", label: "Go to Pipeline", onSelect: () => router.push("/pipeline") },
+      { id: "nav-momentum", label: "Go to Momentum", onSelect: () => router.push("/momentum") },
+      { id: "nav-focus", label: "Go to Focus", onSelect: () => router.push("/focus") },
+      { id: "nav-automations", label: "Go to Automations", onSelect: () => router.push("/automations") },
+      { id: "nav-settings", label: "Go to Settings", onSelect: () => router.push("/settings") },
+    ];
+
+    const workspaceItems = state.workspaces.map((workspace) => ({
+      id: `workspace-${workspace.id}`,
+      label: `Switch to ${workspace.name}`,
+      onSelect: () => handleWorkspaceSwitch(workspace.id),
+    }));
+
+    return [
+      ...pageItems,
+      ...workspaceItems,
+      {
+        id: "task-sample",
+        label: "Add a priority task",
+        onSelect: () =>
+          handleCreateTask(
+            "Send recruiter follow-up",
+            "Share updated portfolio link"
+          ),
+      },
+      { id: "demo-load", label: "Load sample data", onSelect: handleLoadSampleData },
+      { id: "demo-reset", label: "Reset demo", onSelect: handleResetDemo },
+      { id: "tour-restart", label: "Restart quick tour", onSelect: restartTour },
+      { id: "personalization-clear", label: "Clear personalization", onSelect: clearPersonalization },
+    ];
+  }, [
+    state.workspaces,
+    router,
+    handleWorkspaceSwitch,
+    handleCreateTask,
+    handleLoadSampleData,
+    handleResetDemo,
+    restartTour,
+    clearPersonalization,
+  ]);
 
   const filteredTasks = useMemo(
     () => filterByQuery(state.tasks, searchQuery, ["title", "detail"]),
@@ -319,7 +441,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         completeTour,
         dismissTour,
         restartTour,
+        demoLoaded,
         handleLoadSampleData,
+        handleAddSampleRoles,
+        handleAddSingleRole,
+        handleAddFocusBlock,
         handleWorkspaceSwitch,
         handleCreateTask,
         handleToggleTask,
@@ -333,6 +459,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     >
       <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-100 px-6 py-8 text-slate-900 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
         <ToastStack toasts={toasts} onDismiss={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))} />
+        <CommandPalette
+          open={paletteOpen}
+          items={commandItems}
+          onClose={() => setPaletteOpen(false)}
+        />
+        <AboutDemoDrawer open={aboutOpen} onClose={() => setAboutOpen(false)} />
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
           <Header
             searchQuery={searchQuery}
@@ -343,6 +475,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               }
             }}
             displayName={displayName}
+            onOpenAbout={() => setAboutOpen(true)}
           />
           {hasFilter && (
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-300">

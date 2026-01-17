@@ -8,7 +8,7 @@ export default function FocusPage() {
   const {
     state,
     filteredTasks,
-    handleLoadSampleData,
+    handleAddFocusBlock,
     handleCreateTask,
     handleToggleTask,
     handleDeleteTask,
@@ -61,10 +61,10 @@ export default function FocusPage() {
               </p>
               <button
                 type="button"
-                onClick={() => handleLoadSampleData()}
+                onClick={() => handleAddFocusBlock()}
                 className="mt-3 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-white"
               >
-                Load sample focus block
+                Add focus block
               </button>
             </div>
           )}

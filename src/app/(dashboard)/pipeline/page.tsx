@@ -1,6 +1,4 @@
 "use client";
-
-import Link from "next/link";
 import { Briefcase, Target } from "lucide-react";
 import { useMemo } from "react";
 import { useAppShell } from "@/components/app-shell";
@@ -20,7 +18,7 @@ const priorityStyles: Record<string, string> = {
 };
 
 export default function PipelinePage() {
-  const { state, handleLoadSampleData } = useAppShell();
+  const { state, handleAddSampleRoles, handleAddSingleRole } = useAppShell();
 
   const stageSummary = useMemo(() => {
     return state.pipelineRoles.reduce<Record<string, number>>((acc, role) => {
@@ -153,17 +151,18 @@ export default function PipelinePage() {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => handleLoadSampleData()}
+                  onClick={() => handleAddSampleRoles()}
                   className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
                 >
                   Load sample roles
                 </button>
-                <Link
-                  href="/settings"
+                <button
+                  type="button"
+                  onClick={() => handleAddSingleRole()}
                   className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-200"
                 >
-                  Open demo controls
-                </Link>
+                  Add role
+                </button>
               </div>
             </div>
           )}

@@ -128,7 +128,7 @@ export default function AutomationsPage() {
                 }
                 className="mt-3 inline-flex items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
               >
-                Add starter rule
+                Create sample automation
               </button>
             </div>
           )}

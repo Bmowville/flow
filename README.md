@@ -116,6 +116,11 @@ SignalBoard stores a demo display name in localStorage. The first-run prompt let
 ## Demo tour + personalization
 The Overview page includes a skippable quick tour. Restart it from Settings → Demo controls, and use “Clear personalization” to return to the default demo user.
 
+## Demo storyline
+- Click “Start demo” on Overview to load sample data.
+- Use the command palette (Press `/` or Cmd/Ctrl+K) to jump between pages.
+- Open the “?” icon in the header to see what’s simulated vs real.
+
 ## What to try in 2 minutes
 1. Sign in and set a display name.
 2. Switch between “SignalBoard HQ” and “Recruiting Ops”.
