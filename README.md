@@ -3,7 +3,7 @@
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
-**Live Demo:** https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app
+**Live Demo (production):** https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
@@ -87,12 +87,22 @@ npm run test:e2e
 4. Deploy. Vercel runs `vercel-build`, which executes `npm run db:generate && npm run db:deploy && next build`.
 5. First login auto-seeds demo data if the database is empty.
 
+Prisma production verification:
+- `vercel-build` runs `prisma migrate deploy --schema prisma/postgres/schema.prisma` via `npm run db:deploy`.
+- `DATABASE_URL` in Vercel must start with `postgresql://` or `postgres://`.
+
 ## Demo Login
 - Email: demo@signalboard.ai
 - Password: signalboard
 
 ## Health Check
-Endpoint: https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app/api/health
+GET /api/health should return JSON and confirms DB connectivity.
+
+## Deployment Protection (Vercel)
+If Vercel Deployment Protection (Vercel Authentication) is enabled, public requests to `/api/health` may be blocked. To allow public health checks:
+1. Vercel Project → Settings → Deployment Protection.
+2. Disable “Vercel Authentication” for Production (or create a Shareable Link if keeping protection on).
+3. Redeploy after changing protection, then verify `/api/health` is publicly reachable.
 
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
