@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ActivityTimeline } from "@/components/activity";
 import { InsightStrip } from "@/components/insights";
 import { IntegrationsPanel } from "@/components/integrations";
@@ -23,12 +23,6 @@ export function DashboardClient() {
   } = useAppShell();
 
   const [draftName, setDraftName] = useState("");
-
-  useEffect(() => {
-    if (!onboardingComplete) {
-      setDraftName(displayName === "Demo User" ? "" : displayName);
-    }
-  }, [displayName, onboardingComplete]);
 
   const lastUpdated = useMemo(() => new Date(), []);
 

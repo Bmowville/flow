@@ -68,7 +68,7 @@ export function useAppShell() {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [state, setState] = useState<DashboardState>(emptyState);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
