@@ -24,7 +24,15 @@ const insights = [
   },
 ];
 
-export function InsightStrip() {
+type InsightStripProps = {
+  lastUpdated?: Date;
+};
+
+export function InsightStrip({ lastUpdated }: InsightStripProps) {
+  const updatedLabel = lastUpdated
+    ? `Updated ${lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+    : "Updated just now";
+
   return (
     <section className="grid gap-4 md:grid-cols-3">
       {insights.map((insight) => {
@@ -49,6 +57,9 @@ export function InsightStrip() {
             </div>
             <p className="mt-3 text-sm text-slate-500 dark:text-slate-300">
               {insight.detail}
+            </p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
+              {updatedLabel}
             </p>
           </div>
         );

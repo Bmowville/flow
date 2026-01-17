@@ -30,6 +30,10 @@ const emptyState = {
   automations: [] as Automation[],
 };
 
+const DEFAULT_DISPLAY_NAME = "Demo User";
+const DISPLAY_NAME_KEY = "signalboard.displayName";
+const ONBOARDING_KEY = "signalboard.onboardingComplete";
+
 type DashboardState = typeof emptyState;
 
 type AppShellContextValue = {
@@ -38,6 +42,9 @@ type AppShellContextValue = {
   setSearchQuery: (value: string) => void;
   filteredTasks: Task[];
   filteredActivity: Activity[];
+  displayName: string;
+  onboardingComplete: boolean;
+  saveDisplayName: (name: string) => void;
   handleWorkspaceSwitch: (workspaceId: string) => Promise<void>;
   handleCreateTask: (title: string, detail: string) => Promise<void>;
   handleToggleTask: (id: string, completed: boolean) => Promise<void>;
@@ -67,6 +74,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [displayName, setDisplayName] = useState(DEFAULT_DISPLAY_NAME);
+  const [onboardingComplete, setOnboardingComplete] = useState(false);
 
   const pushToast = useCallback((title: string, type: Toast["type"] = "info") => {
     const id = crypto.randomUUID();
@@ -98,6 +107,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       loadDashboard();
     }
   }, [loadDashboard, status]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const storedName = window.localStorage.getItem(DISPLAY_NAME_KEY);
+    const storedOnboarding = window.localStorage.getItem(ONBOARDING_KEY);
+    if (storedName) {
+      setDisplayName(storedName);
+    }
+    if (storedOnboarding === "true") {
+      setOnboardingComplete(true);
+    }
+  }, []);
+
+  const saveDisplayName = useCallback((name: string) => {
+    const trimmed = name.trim();
+    const nextName = trimmed.length > 0 ? trimmed : DEFAULT_DISPLAY_NAME;
+    setDisplayName(nextName);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(DISPLAY_NAME_KEY, nextName);
+      window.localStorage.setItem(ONBOARDING_KEY, "true");
+    }
+    setOnboardingComplete(true);
+  }, []);
 
   const handleWorkspaceSwitch = async (workspaceId: string) => {
     await fetch("/api/workspaces/current", {
@@ -166,6 +198,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const handleResetDemo = async () => {
     await fetch("/api/reset", { method: "POST" });
     pushToast("Demo reset", "warning");
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(DISPLAY_NAME_KEY);
+      window.localStorage.removeItem(ONBOARDING_KEY);
+    }
+    setDisplayName(DEFAULT_DISPLAY_NAME);
+    setOnboardingComplete(false);
     await loadDashboard();
   };
 
@@ -205,6 +243,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         setSearchQuery,
         filteredTasks,
         filteredActivity,
+        displayName,
+        onboardingComplete,
+        saveDisplayName,
         handleWorkspaceSwitch,
         handleCreateTask,
         handleToggleTask,
@@ -227,7 +268,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 pushToast("Search filter applied", "info");
               }
             }}
-            userName={session?.user?.name ?? session?.user?.email}
+            displayName={displayName}
           />
           {hasFilter && (
             <div className="text-xs font-semibold text-slate-500 dark:text-slate-300">

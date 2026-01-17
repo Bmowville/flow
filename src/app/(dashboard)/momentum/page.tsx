@@ -13,6 +13,9 @@ export default function MomentumPage() {
     [state.tasks]
   );
 
+  const lastUpdated = useMemo(() => new Date(), []);
+  const updatedLabel = `Updated ${lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+
   return (
     <div className="flex flex-col gap-6">
       <section className="rounded-2xl border border-white/10 bg-white/80 p-6 shadow-sm dark:bg-slate-950/60">
@@ -43,6 +46,9 @@ export default function MomentumPage() {
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
               {state.tasks.length} total tasks this week
             </p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
+              {updatedLabel}
+            </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/70 p-4 dark:bg-slate-900/70">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
@@ -53,6 +59,9 @@ export default function MomentumPage() {
             </p>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
               Logged events for this workspace
+            </p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
+              {updatedLabel}
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/70 p-4 dark:bg-slate-900/70">
@@ -65,6 +74,9 @@ export default function MomentumPage() {
             </p>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
               Roles progressing across stages
+            </p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
+              {updatedLabel}
             </p>
           </div>
         </div>

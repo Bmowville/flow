@@ -146,7 +146,7 @@ export default function PipelinePage() {
           ))}
           {state.pipelineRoles.length === 0 && (
             <p className="text-sm text-slate-500 dark:text-slate-300">
-              No roles tracked yet. Add roles from the pipeline intake workspace.
+              No roles tracked yet. Add your next target role to start building momentum.
             </p>
           )}
         </div>

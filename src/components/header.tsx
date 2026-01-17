@@ -8,10 +8,10 @@ import { SearchBar } from "@/components/search";
 type HeaderProps = {
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  userName?: string | null;
+  displayName: string;
 };
 
-export function Header({ searchQuery, onSearchChange, userName }: HeaderProps) {
+export function Header({ searchQuery, onSearchChange, displayName }: HeaderProps) {
   return (
     <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/80 px-6 py-4 shadow-sm backdrop-blur dark:bg-slate-950/60">
       <div className="flex items-center gap-3">
@@ -39,7 +39,7 @@ export function Header({ searchQuery, onSearchChange, userName }: HeaderProps) {
         </button>
         <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white shadow-sm dark:bg-white dark:text-slate-900">
           <CircleUserRound size={16} />
-          {userName ?? "Account"}
+          {displayName}
         </div>
         <button
           type="button"

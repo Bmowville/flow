@@ -110,6 +110,9 @@ If Vercel Deployment Protection (Vercel Authentication) is enabled, public reque
 ## Resetting Demo Data
 Use the Settings page reset action (POST `/api/reset`) to rebuild both demo workspaces.
 
+## Personalization
+SignalBoard stores a demo display name in localStorage. The first-run prompt lets you set it, and the Settings → Reset demo action clears it so the onboarding prompt appears again.
+
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
 - **Invalid session/CSRF errors:** Set a strong `NEXTAUTH_SECRET`, then clear cookies for the domain and try again.
