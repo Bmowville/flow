@@ -3,7 +3,7 @@
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
-**Live Demo:** https://signalboard-demo.vercel.app
+**Live Demo:** https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
@@ -87,8 +87,12 @@ npm run test:e2e
 4. Deploy. Vercel runs `vercel-build`, which executes `npm run db:generate && npm run db:deploy && next build`.
 5. First login auto-seeds demo data if the database is empty.
 
+## Demo Login
+- Email: demo@signalboard.ai
+- Password: signalboard
+
 ## Health Check
-`/api/health` verifies DB connectivity.
+Endpoint: https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app/api/health
 
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
