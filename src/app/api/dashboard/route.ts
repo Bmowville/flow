@@ -14,11 +14,73 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const memberships = await prisma.workspaceMember.findMany({
+    let memberships = await prisma.workspaceMember.findMany({
       where: { userId },
       include: { workspace: true },
       orderBy: { joinedAt: "asc" },
     });
+
+    if (memberships.length === 1) {
+      const hasRecruiting = memberships.some(
+        (membership) => membership.workspace.name === "Recruiting Ops"
+      );
+
+      if (!hasRecruiting) {
+        await prisma.workspace.create({
+          data: {
+            name: "Recruiting Ops",
+            slug: `recruiting-ops-${userId.slice(0, 6)}`,
+            owner: user.email,
+            widgets: {
+              create: [
+                {
+                  title: "Pipeline Coverage",
+                  type: "pipeline",
+                  status: "healthy",
+                  value: "24 roles",
+                  description: "12 active, 8 warm, 4 planned",
+                  trend: "+6%",
+                  position: 1,
+                },
+              ],
+            },
+            integrations: {
+              create: [
+                { name: "Greenhouse", status: "Connected", lastSyncedAt: new Date() },
+              ],
+            },
+            pipelineRoles: {
+              create: [
+                {
+                  title: "Staff Frontend",
+                  company: "Adventure Works",
+                  stage: "Screen",
+                  priority: "High",
+                },
+              ],
+            },
+            automations: {
+              create: [
+                {
+                  title: "Auto-score inbound roles",
+                  description: "Tag inbound roles by match score",
+                  status: "Enabled",
+                },
+              ],
+            },
+            members: {
+              create: [{ userId, role: "Admin" }],
+            },
+          },
+        });
+
+        memberships = await prisma.workspaceMember.findMany({
+          where: { userId },
+          include: { workspace: true },
+          orderBy: { joinedAt: "asc" },
+        });
+      }
+    }
 
     if (!user.currentWorkspaceId) {
       if (memberships.length === 0) {
@@ -86,6 +148,54 @@ export async function GET() {
             },
             members: {
               create: [{ userId, role: "Owner" }],
+            },
+          },
+        });
+
+        await prisma.workspace.create({
+          data: {
+            name: "Recruiting Ops",
+            slug: `recruiting-ops-${userId.slice(0, 6)}`,
+            owner: user.email,
+            widgets: {
+              create: [
+                {
+                  title: "Pipeline Coverage",
+                  type: "pipeline",
+                  status: "healthy",
+                  value: "24 roles",
+                  description: "12 active, 8 warm, 4 planned",
+                  trend: "+6%",
+                  position: 1,
+                },
+              ],
+            },
+            integrations: {
+              create: [
+                { name: "Greenhouse", status: "Connected", lastSyncedAt: new Date() },
+              ],
+            },
+            pipelineRoles: {
+              create: [
+                {
+                  title: "Staff Frontend",
+                  company: "Adventure Works",
+                  stage: "Screen",
+                  priority: "High",
+                },
+              ],
+            },
+            automations: {
+              create: [
+                {
+                  title: "Auto-score inbound roles",
+                  description: "Tag inbound roles by match score",
+                  status: "Enabled",
+                },
+              ],
+            },
+            members: {
+              create: [{ userId, role: "Admin" }],
             },
           },
         });
