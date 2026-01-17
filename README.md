@@ -3,7 +3,7 @@
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
-**Live Demo:** _Add URL after deploy_
+**Live Demo:** https://signalboard-demo.vercel.app
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
@@ -22,8 +22,8 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 2) Create `.env.local` from `.env.example` and fill secrets.
 
 3) Initialize SQLite and seed:
-- `npm run db:generate`
-- `npm run db:migrate`
+- `npm run db:generate:local`
+- `npm run db:migrate:local`
 - `npm run db:seed`
 
 4) Start the dev server:
@@ -76,18 +76,24 @@ npm run test:e2e
 - `npm run db:seed` — seed local data
 
 ## Deploy to Vercel (Postgres)
-1. Create a Postgres database (Neon or Supabase) and copy the connection string.
-2. In Vercel, set environment variables:
+1. Create a Postgres database (Neon recommended) and copy the connection string.
+2. Import this repo into Vercel.
+3. Set the required environment variables in Vercel:
 	- `DATABASE_URL` (Postgres)
-	- `NEXTAUTH_URL` (your production URL)
-	- `NEXTAUTH_SECRET`
+	- `NEXTAUTH_URL` (your Vercel production URL)
+	- `NEXTAUTH_SECRET` (long random string)
 	- `PRISMA_SCHEMA=prisma/postgres/schema.prisma`
 	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
-3. Deploy. Vercel runs `vercel-build` which executes `npm run db:generate && npm run db:deploy && next build`.
-4. First login will auto-seed demo data if the database is empty.
+4. Deploy. Vercel runs `vercel-build`, which executes `npm run db:generate && npm run db:deploy && next build`.
+5. First login auto-seeds demo data if the database is empty.
 
 ## Health Check
 `/api/health` verifies DB connectivity.
+
+## Troubleshooting
+- **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
+- **Invalid session/CSRF errors:** Set a strong `NEXTAUTH_SECRET`, then clear cookies for the domain and try again.
+- **Preview deployments:** If preview URLs are used, set `NEXTAUTH_URL` to the preview URL or use a separate Vercel Environment Variable for Preview.
 
 ## Screenshots
 
