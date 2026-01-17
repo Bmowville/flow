@@ -114,9 +114,23 @@ export default function AutomationsPage() {
             </div>
           ))}
           {state.automations.length === 0 && (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              No automations yet. Add a rule to get started.
-            </p>
+            <div className="text-sm text-slate-500 dark:text-slate-300">
+              <p>
+                No automations yet. Rules help recruiters stay consistent with outreach and follow-ups.
+              </p>
+              <button
+                type="button"
+                onClick={() =>
+                  handleCreateAutomation(
+                    "Auto-followup reminders",
+                    "Create a reminder 48h after a recruiter reply"
+                  )
+                }
+                className="mt-3 inline-flex items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
+              >
+                Add starter rule
+              </button>
+            </div>
           )}
         </div>
       </section>

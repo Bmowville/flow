@@ -30,6 +30,9 @@ export default function MomentumPage() {
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
               Track your activity streak, completed tasks, and recruiting touchpoints.
             </p>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
+              Momentum highlights the signals recruiters notice: responsiveness, consistency, and follow-through.
+            </p>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500">
             <Flame size={20} />

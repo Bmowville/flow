@@ -10,6 +10,8 @@ export default function SettingsPage() {
     state,
     displayName,
     saveDisplayName,
+    clearPersonalization,
+    restartTour,
     handleWorkspaceSwitch,
     handleLoadSampleData,
     handleResetDemo,
@@ -133,10 +135,10 @@ export default function SettingsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-              Demo data controls
+              Demo controls
             </h3>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
-              Load sample data or reset to the original demo state.
+              Load data, reset the demo, or restart the tour experience.
             </p>
           </div>
         </div>
@@ -147,6 +149,20 @@ export default function SettingsPage() {
             className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
           >
             Load sample data
+          </button>
+          <button
+            type="button"
+            onClick={() => restartTour()}
+            className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+          >
+            Restart tour
+          </button>
+          <button
+            type="button"
+            onClick={() => clearPersonalization()}
+            className="inline-flex items-center gap-2 rounded-full bg-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          >
+            Clear personalization
           </button>
           <button
             type="button"

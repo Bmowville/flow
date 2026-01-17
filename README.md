@@ -113,6 +113,9 @@ Use the Settings page reset action (POST `/api/reset`) to rebuild both demo work
 ## Personalization
 SignalBoard stores a demo display name in localStorage. The first-run prompt lets you set it, and the Settings → Reset demo action clears it so the onboarding prompt appears again.
 
+## Demo tour + personalization
+The Overview page includes a skippable quick tour. Restart it from Settings → Demo controls, and use “Clear personalization” to return to the default demo user.
+
 ## What to try in 2 minutes
 1. Sign in and set a display name.
 2. Switch between “SignalBoard HQ” and “Recruiting Ops”.

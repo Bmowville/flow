@@ -33,6 +33,8 @@ const emptyState = {
 const DEFAULT_DISPLAY_NAME = "Demo User";
 const DISPLAY_NAME_KEY = "signalboard.displayName";
 const ONBOARDING_KEY = "signalboard.onboardingComplete";
+const TOUR_COMPLETED_KEY = "signalboard.tourCompleted";
+const TOUR_DISMISSED_KEY = "signalboard.tourDismissed";
 
 type DashboardState = typeof emptyState;
 
@@ -45,6 +47,12 @@ type AppShellContextValue = {
   displayName: string;
   onboardingComplete: boolean;
   saveDisplayName: (name: string) => void;
+  clearPersonalization: () => void;
+  tourCompleted: boolean;
+  tourDismissed: boolean;
+  completeTour: () => void;
+  dismissTour: () => void;
+  restartTour: () => void;
   handleLoadSampleData: () => Promise<void>;
   handleWorkspaceSwitch: (workspaceId: string) => Promise<void>;
   handleCreateTask: (title: string, detail: string) => Promise<void>;
@@ -77,6 +85,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [displayName, setDisplayName] = useState(DEFAULT_DISPLAY_NAME);
   const [onboardingComplete, setOnboardingComplete] = useState(false);
+  const [tourCompleted, setTourCompleted] = useState(false);
+  const [tourDismissed, setTourDismissed] = useState(false);
 
   const pushToast = useCallback((title: string, type: Toast["type"] = "info") => {
     const id = crypto.randomUUID();
@@ -113,11 +123,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (typeof window === "undefined") return;
     const storedName = window.localStorage.getItem(DISPLAY_NAME_KEY);
     const storedOnboarding = window.localStorage.getItem(ONBOARDING_KEY);
+    const storedTourCompleted = window.localStorage.getItem(TOUR_COMPLETED_KEY);
+    const storedTourDismissed = window.localStorage.getItem(TOUR_DISMISSED_KEY);
     if (storedName) {
       setDisplayName(storedName);
     }
     if (storedOnboarding === "true") {
       setOnboardingComplete(true);
+    }
+    if (storedTourCompleted === "true") {
+      setTourCompleted(true);
+    }
+    if (storedTourDismissed === "true") {
+      setTourDismissed(true);
     }
   }, []);
 
@@ -131,6 +149,43 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
     setOnboardingComplete(true);
     pushToast("Display name saved", "success");
+  }, [pushToast]);
+
+  const clearPersonalization = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(DISPLAY_NAME_KEY);
+      window.localStorage.removeItem(ONBOARDING_KEY);
+    }
+    setDisplayName(DEFAULT_DISPLAY_NAME);
+    setOnboardingComplete(false);
+    pushToast("Personalization cleared", "warning");
+  }, [pushToast]);
+
+  const completeTour = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(TOUR_COMPLETED_KEY, "true");
+      window.localStorage.removeItem(TOUR_DISMISSED_KEY);
+    }
+    setTourCompleted(true);
+    setTourDismissed(false);
+    pushToast("Quick tour completed", "success");
+  }, [pushToast]);
+
+  const dismissTour = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(TOUR_DISMISSED_KEY, "true");
+    }
+    setTourDismissed(true);
+  }, []);
+
+  const restartTour = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(TOUR_COMPLETED_KEY);
+      window.localStorage.removeItem(TOUR_DISMISSED_KEY);
+    }
+    setTourCompleted(false);
+    setTourDismissed(false);
+    pushToast("Quick tour restarted", "info");
   }, [pushToast]);
 
   const handleLoadSampleData = async () => {
@@ -209,9 +264,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       window.localStorage.removeItem(DISPLAY_NAME_KEY);
       window.localStorage.removeItem(ONBOARDING_KEY);
+      window.localStorage.removeItem(TOUR_COMPLETED_KEY);
+      window.localStorage.removeItem(TOUR_DISMISSED_KEY);
     }
     setDisplayName(DEFAULT_DISPLAY_NAME);
     setOnboardingComplete(false);
+    setTourCompleted(false);
+    setTourDismissed(false);
     await loadDashboard();
   };
 
@@ -254,6 +313,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         displayName,
         onboardingComplete,
         saveDisplayName,
+        clearPersonalization,
+        tourCompleted,
+        tourDismissed,
+        completeTour,
+        dismissTour,
+        restartTour,
         handleLoadSampleData,
         handleWorkspaceSwitch,
         handleCreateTask,
