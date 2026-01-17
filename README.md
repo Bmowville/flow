@@ -92,20 +92,23 @@ Prisma production verification:
 - `DATABASE_URL` in Vercel must start with `postgresql://` or `postgres://`.
 
 ## Demo Login
-- Email: demo@signalboard.ai
-- Password: signalboard
+- Go to https://flow-azure-beta.vercel.app/signin
+- Use the demo credentials shown on the sign-in page.
 
 ## Production Note
 `NEXTAUTH_URL` must match the production domain exactly.
 
 ## Health Check
-GET /api/health should return JSON and confirms DB connectivity.
+`/api/health` is publicly accessible and returns JSON confirming DB connectivity.
 
 ## Deployment Protection (Vercel)
 If Vercel Deployment Protection (Vercel Authentication) is enabled, public requests to `/api/health` may be blocked. To allow public health checks:
 1. Vercel Project → Settings → Deployment Protection.
 2. Disable “Vercel Authentication” for Production (or create a Shareable Link if keeping protection on).
 3. Redeploy after changing protection, then verify `/api/health` is publicly reachable.
+
+## Resetting Demo Data
+Use the Settings page reset action (POST `/api/reset`) to rebuild both demo workspaces.
 
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
