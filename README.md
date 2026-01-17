@@ -3,7 +3,7 @@
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
-**Live Demo (production):** https://flow-1dg4og6lu-bryan-mowreys-projects.vercel.app
+**Live Demo (production):** https://flow-azure-beta.vercel.app
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
@@ -94,6 +94,9 @@ Prisma production verification:
 ## Demo Login
 - Email: demo@signalboard.ai
 - Password: signalboard
+
+## Production Note
+`NEXTAUTH_URL` must match the production domain exactly.
 
 ## Health Check
 GET /api/health should return JSON and confirms DB connectivity.
