@@ -45,6 +45,7 @@ type AppShellContextValue = {
   displayName: string;
   onboardingComplete: boolean;
   saveDisplayName: (name: string) => void;
+  handleLoadSampleData: () => Promise<void>;
   handleWorkspaceSwitch: (workspaceId: string) => Promise<void>;
   handleCreateTask: (title: string, detail: string) => Promise<void>;
   handleToggleTask: (id: string, completed: boolean) => Promise<void>;
@@ -129,7 +130,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       window.localStorage.setItem(ONBOARDING_KEY, "true");
     }
     setOnboardingComplete(true);
-  }, []);
+    pushToast("Display name saved", "success");
+  }, [pushToast]);
+
+  const handleLoadSampleData = async () => {
+    await fetch("/api/seed", { method: "POST" });
+    pushToast("Sample data loaded", "success");
+    await loadDashboard();
+  };
 
   const handleWorkspaceSwitch = async (workspaceId: string) => {
     await fetch("/api/workspaces/current", {
@@ -246,6 +254,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         displayName,
         onboardingComplete,
         saveDisplayName,
+        handleLoadSampleData,
         handleWorkspaceSwitch,
         handleCreateTask,
         handleToggleTask,

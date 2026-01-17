@@ -19,7 +19,7 @@ const priorityStyles: Record<string, string> = {
 };
 
 export default function PipelinePage() {
-  const { state } = useAppShell();
+  const { state, handleLoadSampleData } = useAppShell();
 
   const stageSummary = useMemo(() => {
     return state.pipelineRoles.reduce<Record<string, number>>((acc, role) => {
@@ -145,9 +145,18 @@ export default function PipelinePage() {
             </div>
           ))}
           {state.pipelineRoles.length === 0 && (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              No roles tracked yet. Add your next target role to start building momentum.
-            </p>
+            <div className="flex flex-col gap-3 text-sm text-slate-500 dark:text-slate-300">
+              <p>
+                No roles tracked yet. Add your next target role to start building momentum.
+              </p>
+              <button
+                type="button"
+                onClick={() => handleLoadSampleData()}
+                className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
+              >
+                Load sample data
+              </button>
+            </div>
           )}
         </div>
       </section>

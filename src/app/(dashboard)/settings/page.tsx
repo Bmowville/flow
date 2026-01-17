@@ -1,11 +1,20 @@
 "use client";
 
-import { RefreshCcw, Settings as SettingsIcon } from "lucide-react";
+import { useState } from "react";
+import { RefreshCcw, Settings as SettingsIcon, Sparkles } from "lucide-react";
 import { useAppShell } from "@/components/app-shell";
 import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {
-  const { state, handleWorkspaceSwitch, handleResetDemo } = useAppShell();
+  const {
+    state,
+    displayName,
+    saveDisplayName,
+    handleWorkspaceSwitch,
+    handleLoadSampleData,
+    handleResetDemo,
+  } = useAppShell();
+  const [nameDraft, setNameDraft] = useState(displayName);
 
   return (
     <div className="flex flex-col gap-6">
@@ -90,12 +99,55 @@ export default function SettingsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-              Reset demo data
+              Personalization
             </h3>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
-              Restore the original sample workspace for fresh walkthroughs.
+              Edit the display name shown across the dashboard.
             </p>
           </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500">
+            <Sparkles size={18} />
+          </div>
+        </div>
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <input
+            value={nameDraft}
+            onChange={(event) => setNameDraft(event.target.value)}
+            placeholder="Your display name"
+            className="w-full rounded-2xl border border-white/10 bg-white/70 px-4 py-3 text-sm text-slate-700 shadow-sm dark:bg-slate-900/70 dark:text-slate-200"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              saveDisplayName(nameDraft);
+              setNameDraft(nameDraft.trim() || "Demo User");
+            }}
+            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
+          >
+            Save name
+          </button>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-white/10 bg-white/80 p-6 shadow-sm dark:bg-slate-950/60">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+              Demo data controls
+            </h3>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
+              Load sample data or reset to the original demo state.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => handleLoadSampleData()}
+            className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
+          >
+            Load sample data
+          </button>
           <button
             type="button"
             onClick={() => handleResetDemo()}
@@ -105,6 +157,20 @@ export default function SettingsPage() {
             Reset demo
           </button>
         </div>
+      </section>
+
+      <section className="rounded-2xl border border-white/10 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:bg-slate-950/60 dark:text-slate-300">
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+          About this demo
+        </h3>
+        <p className="mt-2">
+          SignalBoard simulates recruiter workflows, outreach tracking, and focus planning.
+        </p>
+        <ul className="mt-3 list-disc space-y-2 pl-5">
+          <li>Integrations are mocked for demo clarity.</li>
+          <li>Use “Load sample data” to populate a fuller workspace.</li>
+          <li>Use “Reset demo” to restore the original two-workspace seed.</li>
+        </ul>
       </section>
     </div>
   );

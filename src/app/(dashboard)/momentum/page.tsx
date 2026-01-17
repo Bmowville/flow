@@ -6,7 +6,7 @@ import { ActivityTimeline } from "@/components/activity";
 import { useAppShell } from "@/components/app-shell";
 
 export default function MomentumPage() {
-  const { state, filteredActivity, filteredTasks } = useAppShell();
+  const { state, filteredActivity, filteredTasks, handleLoadSampleData } = useAppShell();
 
   const completedCount = useMemo(
     () => state.tasks.filter((task) => task.completed).length,
@@ -90,8 +90,21 @@ export default function MomentumPage() {
           {filteredTasks.slice(0, 3).map((task) => (
             <li key={task.id}>{task.title}</li>
           ))}
-          {filteredTasks.length === 0 && <li>Clear the search filter to see tasks.</li>}
+          {filteredTasks.length === 0 && (
+            <li>
+              No momentum tasks yet. Load sample data to see a full demo.
+            </li>
+          )}
         </ul>
+        {filteredTasks.length === 0 && (
+          <button
+            type="button"
+            onClick={() => handleLoadSampleData()}
+            className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
+          >
+            Load sample data
+          </button>
+        )}
       </section>
     </div>
   );
