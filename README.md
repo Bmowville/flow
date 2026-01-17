@@ -113,6 +113,18 @@ Use the Settings page reset action (POST `/api/reset`) to rebuild both demo work
 ## Personalization
 SignalBoard stores a demo display name in localStorage. The first-run prompt lets you set it, and the Settings → Reset demo action clears it so the onboarding prompt appears again.
 
+## What to try in 2 minutes
+1. Sign in and set a display name.
+2. Switch between “SignalBoard HQ” and “Recruiting Ops”.
+3. Open Pipeline or Momentum and load sample data if needed.
+4. Toggle integrations or add a task to see activity update.
+
+## Architecture
+- Next.js App Router + TypeScript UI
+- Prisma ORM with Postgres in production, SQLite locally
+- NextAuth credentials for demo authentication
+- Vitest + Playwright for tests
+
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
 - **Invalid session/CSRF errors:** Set a strong `NEXTAUTH_SECRET`, then clear cookies for the domain and try again.
