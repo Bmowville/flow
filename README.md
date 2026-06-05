@@ -28,6 +28,7 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 - CI runs lint, typecheck, unit tests, Prisma generation, and production build.
 - Playwright coverage exercises the browser-level demo path.
 - Local SQLite and production Postgres schemas are split for realistic deployment setup.
+- CI checks that local SQLite and production Postgres Prisma model definitions stay in sync.
 
 ## Quick Start (Local)
 1) Install dependencies:
@@ -66,6 +67,12 @@ Optional:
 
 ## Database
 SignalBoard uses Prisma + SQLite for local development. Production should use Postgres (Neon/Supabase).
+
+The model definitions are duplicated in `prisma/schema.prisma` and `prisma/postgres/schema.prisma` so each environment can use the correct datasource provider. Keep them aligned with:
+
+```
+npm run validate:schema
+```
 
 ```
 npm run db:generate
@@ -146,6 +153,8 @@ The Overview page includes a skippable quick tour. Restart it from Settings → 
 - Prisma ORM with Postgres in production, SQLite locally
 - NextAuth credentials for demo authentication
 - Vitest + Playwright for tests
+
+See `docs/architecture.md` for the data model, route boundaries, and deployment split.
 
 ## Troubleshooting
 - **OAuth/session cookie loops:** Ensure `NEXTAUTH_URL` exactly matches the deployed URL (no trailing slash) and redeploy after changing it.
