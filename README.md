@@ -1,5 +1,7 @@
 # SignalBoard
 
+[![CI](https://github.com/Bmowville/flow/actions/workflows/ci.yml/badge.svg)](https://github.com/Bmowville/flow/actions/workflows/ci.yml)
+
 SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
@@ -14,6 +16,18 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 - Credentials sign-in is the default; GitHub OAuth appears only if configured
 - Prisma schema + seed data for v1 functionality
 - Unit tests (Vitest) and E2E tests (Playwright)
+
+## Portfolio review path
+1. Open the live demo and sign in with the demo credentials.
+2. Switch workspaces to confirm preferences and workspace state persist.
+3. Add or update a task, then review the activity timeline.
+4. Toggle an integration to see simulated connected/disconnected states.
+5. Review the Prisma schema, seed script, Vitest tests, and Playwright smoke flow.
+
+## Quality signals
+- CI runs lint, typecheck, unit tests, Prisma generation, and production build.
+- Playwright coverage exercises the browser-level demo path.
+- Local SQLite and production Postgres schemas are split for realistic deployment setup.
 
 ## Quick Start (Local)
 1) Install dependencies:
