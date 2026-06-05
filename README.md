@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Bmowville/flow/actions/workflows/ci.yml/badge.svg)](https://github.com/Bmowville/flow/actions/workflows/ci.yml)
 
-SignalBoard is a recruiter-ready productivity cockpit that showcases a modern SaaS UI with DB-backed workspaces, tasks, activity, and integrations. Built to stand out in a portfolio review, it demonstrates UI polish, Next.js App Router architecture, and testing discipline.
+SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, tasks, activity, and integrations. It demonstrates a modern SaaS UI, Next.js App Router architecture, Prisma data modeling, and testing discipline.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
 **Live Demo (production):** https://flow-azure-beta.vercel.app
@@ -17,7 +17,7 @@ SignalBoard is a recruiter-ready productivity cockpit that showcases a modern Sa
 - Prisma schema + seed data for v1 functionality
 - Unit tests (Vitest) and E2E tests (Playwright)
 
-## Portfolio review path
+## Technical review path
 1. Open the live demo and sign in with the demo credentials.
 2. Switch workspaces to confirm preferences and workspace state persist.
 3. Add or update a task, then review the activity timeline.
@@ -137,7 +137,7 @@ The Overview page includes a skippable quick tour. Restart it from Settings → 
 
 ## What to try in 2 minutes
 1. Sign in and set a display name.
-2. Switch between “SignalBoard HQ” and “Recruiting Ops”.
+2. Switch between “SignalBoard HQ” and “Operations Hub”.
 3. Open Pipeline or Momentum and load sample data if needed.
 4. Toggle integrations or add a task to see activity update.
 

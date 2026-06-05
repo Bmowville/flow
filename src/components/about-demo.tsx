@@ -33,7 +33,7 @@ export function AboutDemoDrawer({ open, onClose }: AboutDemoDrawerProps) {
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>Integrations are mocked to keep the demo fast.</li>
               <li>Data resets to a seeded workspace for walkthroughs.</li>
-              <li>No real recruiter systems are connected.</li>
+              <li>No external CRM systems are connected.</li>
             </ul>
           </div>
           <div>
@@ -53,7 +53,7 @@ export function AboutDemoDrawer({ open, onClose }: AboutDemoDrawerProps) {
             <p className="font-semibold text-slate-900 dark:text-white">Try this</p>
             <ol className="mt-2 list-decimal space-y-2 pl-5">
               <li>Set a display name and complete the quick tour.</li>
-              <li>Switch to Recruiting Ops for pipeline insights.</li>
+              <li>Switch to Operations Hub for pipeline insights.</li>
               <li>Load sample data to see Momentum + Focus in action.</li>
             </ol>
           </div>

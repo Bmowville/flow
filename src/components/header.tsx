@@ -24,7 +24,7 @@ export function Header({ searchQuery, onSearchChange, displayName, onOpenAbout }
             SignalBoard
           </p>
           <h1 className="text-xl font-semibold text-slate-900 dark:text-white">
-            Recruiter-ready productivity cockpit
+            Full-stack productivity dashboard
           </h1>
         </div>
       </div>

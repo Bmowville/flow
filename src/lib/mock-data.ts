@@ -2,7 +2,7 @@ import { formatRelativeTime } from "@/lib/utils";
 
 export const workspaces = [
   { id: "ws-1", name: "SignalBoard HQ", role: "Owner" },
-  { id: "ws-2", name: "Recruiting Ops", role: "Admin" },
+  { id: "ws-2", name: "Operations Hub", role: "Admin" },
   { id: "ws-3", name: "Growth Lab", role: "Member" },
 ];
 
@@ -25,7 +25,7 @@ export const widgets = [
   },
   {
     id: "widget-3",
-    title: "Recruiter Outreach",
+    title: "Client Outreach",
     status: "healthy",
     value: "12 follow-ups",
     description: "2 high-priority messages due",
@@ -51,10 +51,10 @@ export const timeline = [
   },
   {
     id: "tl-2",
-    title: "Recruiter pipeline refreshed",
+    title: "Outreach pipeline refreshed",
     detail: "5 new inbound messages triaged",
     time: formatRelativeTime(new Date(Date.now() - 1000 * 60 * 45)),
-    label: "Recruiting",
+    label: "Outreach",
   },
   {
     id: "tl-3",
@@ -65,8 +65,8 @@ export const timeline = [
   },
   {
     id: "tl-4",
-    title: "Portfolio shared",
-    detail: "Sent SignalBoard demo to 4 recruiters",
+    title: "Project link shared",
+    detail: "Sent SignalBoard demo to 4 contacts",
     time: formatRelativeTime(new Date(Date.now() - 1000 * 60 * 220)),
     label: "Outreach",
   },
@@ -103,7 +103,7 @@ export const tasks = [
   {
     id: "task-1",
     title: "Polish resume narrative",
-    detail: "Align outcomes with recruiter feedback",
+    detail: "Align outcomes with stakeholder feedback",
     due: "Today 5:00 PM",
   },
   {

@@ -41,7 +41,7 @@ async function main() {
             position: 2,
           },
           {
-            title: "Recruiter Outreach",
+            title: "Client Outreach",
             type: "crm",
             status: "healthy",
             value: "12 follow-ups",
@@ -78,7 +78,7 @@ async function main() {
       focusBlocks: {
         create: [
           {
-            title: "Portfolio polish",
+            title: "Case study updates",
             startAt: new Date(Date.now() + 1000 * 60 * 60 * 2),
             endAt: new Date(Date.now() + 1000 * 60 * 60 * 3),
             notes: "Finalize case study copy",
@@ -97,7 +97,7 @@ async function main() {
         create: [
           {
             title: "Auto-followup reminders",
-            description: "Create a reminder 48h after a recruiter reply",
+            description: "Create a reminder 48h after a stakeholder reply",
             status: "Enabled",
           },
           {
@@ -135,7 +135,7 @@ async function main() {
         create: [
           {
             title: "Polish resume narrative",
-            detail: "Align outcomes with recruiter feedback",
+            detail: "Align outcomes with stakeholder feedback",
             userId: user.id,
           },
           {
@@ -154,11 +154,11 @@ async function main() {
   });
 
   await prisma.workspace.upsert({
-    where: { slug: "recruiting-ops" },
+    where: { slug: "operations-hub" },
     update: {},
     create: {
-      name: "Recruiting Ops",
-      slug: "recruiting-ops",
+      name: "Operations Hub",
+      slug: "operations-hub",
       owner: "demo@signalboard.ai",
       widgets: {
         create: [

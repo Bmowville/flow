@@ -31,7 +31,7 @@ export function SignInForm({ showGitHub }: SignInFormProps) {
           Welcome to SignalBoard
         </h1>
         <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-          Authenticate to explore the recruiter-ready dashboard.
+          Authenticate to explore the dashboard.
         </p>
       </div>
 

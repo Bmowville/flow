@@ -5,7 +5,7 @@ const insights = [
     id: "insight-1",
     title: "Signal Score",
     value: "92",
-    detail: "Recruiter-ready activity cadence",
+    detail: "Consistent activity cadence",
     icon: ShieldCheck,
   },
   {

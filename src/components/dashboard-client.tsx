@@ -53,7 +53,7 @@ export function DashboardClient() {
             </div>
             <ul className="mt-3 list-disc space-y-2 pl-5">
               <li>Set your display name for a personalized walkthrough.</li>
-              <li>Switch to “Recruiting Ops” to see pipeline insights.</li>
+              <li>Switch to “Operations Hub” to see pipeline insights.</li>
               <li>
                 Add a priority task or visit the
                 <Link href="/pipeline" className="ml-1 font-semibold text-indigo-600">

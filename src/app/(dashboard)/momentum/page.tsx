@@ -28,10 +28,10 @@ export default function MomentumPage() {
               Keep the outreach cadence climbing
             </h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-              Track your activity streak, completed tasks, and recruiting touchpoints.
+              Track your activity streak, completed tasks, and outreach touchpoints.
             </p>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-              Momentum highlights the signals recruiters notice: responsiveness, consistency, and follow-through.
+              Momentum highlights signals that matter in active workflows: responsiveness, consistency, and follow-through.
             </p>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500">

@@ -7,7 +7,7 @@ test("dashboard renders hero content", async ({ page }) => {
   await page.getByRole("button", { name: "Enter demo workspace" }).click();
 
   await expect(
-    page.getByRole("heading", { name: "Recruiter-ready productivity cockpit" })
+    page.getByRole("heading", { name: "Full-stack productivity dashboard" })
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Activity timeline" })).toBeVisible();
 });

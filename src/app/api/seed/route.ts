@@ -19,8 +19,8 @@ export async function POST(request: Request) {
     const primaryWorkspace =
       memberships.find((membership) => membership.workspace.name === "SignalBoard HQ") ??
       memberships[0];
-    const recruitingWorkspace = memberships.find(
-      (membership) => membership.workspace.name === "Recruiting Ops"
+    const operationsWorkspace = memberships.find(
+      (membership) => membership.workspace.name === "Operations Hub"
     );
 
     const now = new Date();
@@ -42,8 +42,8 @@ export async function POST(request: Request) {
       await prisma.task.createMany({
         data: [
           {
-            title: "Send recruiter follow-up",
-            detail: "Reply to Acme Talent with updated portfolio link",
+            title: "Send stakeholder follow-up",
+            detail: "Reply with updated project link",
             completed: true,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
@@ -70,9 +70,9 @@ export async function POST(request: Request) {
       await prisma.activity.createMany({
         data: [
           {
-            title: "Portfolio viewed",
-            detail: "2 recruiters opened your portfolio this morning",
-            type: "portfolio",
+            title: "Project link viewed",
+            detail: "2 contacts opened the project link this morning",
+            type: "project",
             userId,
             workspaceId: primaryWorkspace.workspace.id,
             createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 2),
@@ -110,9 +110,9 @@ export async function POST(request: Request) {
       });
     }
 
-    if (recruitingWorkspace && shouldSeedPipeline) {
+    if (operationsWorkspace && shouldSeedPipeline) {
       const pipelineCount = await prisma.pipelineRole.count({
-        where: { workspaceId: recruitingWorkspace.workspace.id },
+        where: { workspaceId: operationsWorkspace.workspace.id },
       });
 
       if (mode === "pipeline-single" && pipelineCount < 6) {
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
             company: "Northwind",
             stage: "Screen",
             priority: "High",
-            workspaceId: recruitingWorkspace.workspace.id,
+            workspaceId: operationsWorkspace.workspace.id,
           },
         });
       } else if (pipelineCount < 2) {
@@ -133,14 +133,14 @@ export async function POST(request: Request) {
               company: "Northwind",
               stage: "Screen",
               priority: "High",
-              workspaceId: recruitingWorkspace.workspace.id,
+              workspaceId: operationsWorkspace.workspace.id,
             },
             {
               title: "Product Engineer",
               company: "Fabrikam",
               stage: "Onsite",
               priority: "Medium",
-              workspaceId: recruitingWorkspace.workspace.id,
+              workspaceId: operationsWorkspace.workspace.id,
             },
           ],
         });
