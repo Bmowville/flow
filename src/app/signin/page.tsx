@@ -19,7 +19,7 @@ export default async function SignInPage() {
             SignalBoard authentication
           </h1>
           <p className="mt-3 text-sm text-slate-500 dark:text-slate-300">
-            Recruiter-ready analytics with a demo workspace. Use GitHub OAuth or demo
+            Workspace analytics with a demo account. Use GitHub OAuth or demo
             credentials to explore the dashboard.
           </p>
         </div>

@@ -180,7 +180,7 @@ export default function SettingsPage() {
           About this demo
         </h3>
         <p className="mt-2">
-          SignalBoard simulates recruiter workflows, outreach tracking, and focus planning.
+          SignalBoard simulates workspace workflows, outreach tracking, and focus planning.
         </p>
         <ul className="mt-3 list-disc space-y-2 pl-5">
           <li>Integrations are mocked for demo clarity.</li>

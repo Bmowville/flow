@@ -21,15 +21,15 @@ export async function GET() {
     });
 
     if (memberships.length === 1) {
-      const hasRecruiting = memberships.some(
-        (membership) => membership.workspace.name === "Recruiting Ops"
+      const hasOperationsHub = memberships.some(
+        (membership) => membership.workspace.name === "Operations Hub"
       );
 
-      if (!hasRecruiting) {
+      if (!hasOperationsHub) {
         await prisma.workspace.create({
           data: {
-            name: "Recruiting Ops",
-            slug: `recruiting-ops-${userId.slice(0, 6)}`,
+            name: "Operations Hub",
+            slug: `operations-hub-${userId.slice(0, 6)}`,
             owner: user.email,
             widgets: {
               create: [
@@ -140,7 +140,7 @@ export async function GET() {
                   position: 2,
                 },
                 {
-                  title: "Recruiter Outreach",
+                  title: "Client Outreach",
                   type: "crm",
                   status: "healthy",
                   value: "12 follow-ups",
@@ -161,12 +161,12 @@ export async function GET() {
               create: [
                 {
                   title: "Polish resume narrative",
-                  detail: "Align outcomes with recruiter feedback",
+                  detail: "Align outcomes with stakeholder feedback",
                   userId,
                 },
                 {
-                  title: "Send recruiter follow-up",
-                  detail: "Reply to Acme Talent with updated portfolio link",
+                  title: "Send stakeholder follow-up",
+                  detail: "Reply with updated project link",
                   userId,
                 },
                 {
@@ -196,9 +196,9 @@ export async function GET() {
                   userId,
                 },
                 {
-                  title: "Portfolio viewed",
-                  detail: "2 recruiters opened your portfolio this morning",
-                  type: "portfolio",
+                  title: "Project link viewed",
+                  detail: "2 contacts opened the project link this morning",
+                  type: "project",
                   userId,
                 },
                 {
@@ -217,8 +217,8 @@ export async function GET() {
 
         await prisma.workspace.create({
           data: {
-            name: "Recruiting Ops",
-            slug: `recruiting-ops-${userId.slice(0, 6)}`,
+            name: "Operations Hub",
+            slug: `operations-hub-${userId.slice(0, 6)}`,
             owner: user.email,
             widgets: {
               create: [

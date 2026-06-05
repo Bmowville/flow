@@ -376,8 +376,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         label: "Add a priority task",
         onSelect: () =>
           handleCreateTask(
-            "Send recruiter follow-up",
-            "Share updated portfolio link"
+            "Send stakeholder follow-up",
+            "Share updated project link"
           ),
       },
       { id: "demo-load", label: "Load sample data", onSelect: handleLoadSampleData },

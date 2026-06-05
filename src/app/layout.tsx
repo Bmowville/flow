@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SignalBoard | Recruiter-ready productivity cockpit",
+  title: "SignalBoard | Full-stack productivity dashboard",
   description:
-    "SignalBoard is a polished SaaS-style dashboard that showcases AI-assisted productivity, outreach, and focus analytics.",
+    "SignalBoard is a SaaS-style dashboard for workspace activity, outreach, and focus analytics.",
 };
 
 export default function RootLayout({

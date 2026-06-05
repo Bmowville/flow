@@ -77,11 +77,11 @@ export function Sidebar({
 
       <div className="mt-auto rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
         <p className="text-sm font-semibold text-slate-800 dark:text-white">
-          Portfolio-ready insight
+          Workflow insight
         </p>
         <p className="mt-2">
-          SignalBoard simulates AI-assisted prioritization, outreach sequencing, and
-          focus scoring for high-velocity job searches.
+          SignalBoard simulates prioritization, outreach sequencing, and focus
+          scoring for active workspaces.
         </p>
       </div>
     </aside>
