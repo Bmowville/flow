@@ -20,6 +20,25 @@ export async function GET() {
       orderBy: { joinedAt: "asc" },
     });
 
+    const legacyOperationsMembership = memberships.find(
+      (membership) =>
+        membership.workspace.name === "Recruiting Ops" ||
+        membership.workspace.slug.startsWith("recruiting-ops")
+    );
+
+    if (legacyOperationsMembership) {
+      await prisma.workspace.update({
+        where: { id: legacyOperationsMembership.workspace.id },
+        data: { name: "Operations Hub" },
+      });
+
+      memberships = memberships.map((membership) =>
+        membership.workspace.id === legacyOperationsMembership.workspace.id
+          ? { ...membership, workspace: { ...membership.workspace, name: "Operations Hub" } }
+          : membership
+      );
+    }
+
     if (memberships.length === 1) {
       const hasOperationsHub = memberships.some(
         (membership) => membership.workspace.name === "Operations Hub"

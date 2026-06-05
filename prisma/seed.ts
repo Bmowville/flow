@@ -153,10 +153,20 @@ async function main() {
     data: { currentWorkspaceId: workspace.id },
   });
 
-  await prisma.workspace.upsert({
-    where: { slug: "operations-hub" },
-    update: {},
-    create: {
+  const operationsWorkspace = await prisma.workspace.findFirst({
+    where: {
+      OR: [{ slug: "operations-hub" }, { slug: "recruiting-ops" }],
+    },
+  });
+
+  if (operationsWorkspace) {
+    await prisma.workspace.update({
+      where: { id: operationsWorkspace.id },
+      data: { name: "Operations Hub" },
+    });
+  } else {
+    await prisma.workspace.create({
+      data: {
       name: "Operations Hub",
       slug: "operations-hub",
       owner: "demo@signalboard.ai",
@@ -194,7 +204,8 @@ async function main() {
         create: [{ userId: user.id, role: "Admin" }],
       },
     },
-  });
+    });
+  }
 }
 
 main()

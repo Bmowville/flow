@@ -20,8 +20,18 @@ export async function POST(request: Request) {
       memberships.find((membership) => membership.workspace.name === "SignalBoard HQ") ??
       memberships[0];
     const operationsWorkspace = memberships.find(
-      (membership) => membership.workspace.name === "Operations Hub"
+      (membership) =>
+        membership.workspace.name === "Operations Hub" ||
+        membership.workspace.name === "Recruiting Ops" ||
+        membership.workspace.slug.startsWith("recruiting-ops")
     );
+
+    if (operationsWorkspace && operationsWorkspace.workspace.name !== "Operations Hub") {
+      await prisma.workspace.update({
+        where: { id: operationsWorkspace.workspace.id },
+        data: { name: "Operations Hub" },
+      });
+    }
 
     const now = new Date();
     const focusStart = new Date(now.getTime() + 1000 * 60 * 60 * 2);
