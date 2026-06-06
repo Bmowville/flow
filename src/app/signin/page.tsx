@@ -19,8 +19,8 @@ export default async function SignInPage() {
             SignalBoard authentication
           </h1>
           <p className="mt-3 text-sm text-slate-500 dark:text-slate-300">
-            Workspace analytics with a demo account. Use GitHub OAuth or demo
-            credentials to explore the dashboard.
+            Workspace analytics with seeded account access. Use GitHub OAuth
+            or the seeded credentials to open the dashboard.
           </p>
         </div>
         <SignInForm showGitHub={showGitHub} />

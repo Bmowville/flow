@@ -3,10 +3,10 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 
-const demoUser = {
-  id: "demo-user",
+const seededUser = {
+  id: "sample-user",
   name: "Avery Morgan",
-  email: "demo@signalboard.ai",
+  email: "ops@signalboard.local",
 };
 
 const devSecret =
@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
         ]
       : []),
     CredentialsProvider({
-      name: "Demo Credentials",
+      name: "Seeded Account",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
@@ -31,10 +31,10 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
         if (
-          credentials.email === demoUser.email &&
+          credentials.email === seededUser.email &&
           credentials.password === "signalboard"
         ) {
-          return demoUser;
+          return seededUser;
         }
         return null;
       },

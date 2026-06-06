@@ -21,7 +21,7 @@ export function DashboardClient() {
     tourDismissed,
     completeTour,
     dismissTour,
-    demoLoaded,
+    sampleDataLoaded,
     handleLoadSampleData,
     handleToggleIntegration,
     handleCreateTask,
@@ -78,13 +78,13 @@ export function DashboardClient() {
             </button>
           </div>
         )}
-        {!demoLoaded && (
+        {!sampleDataLoaded && (
           <button
             type="button"
             onClick={() => handleLoadSampleData()}
             className="inline-flex w-fit items-center justify-center rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
           >
-            Start demo (load sample data)
+            Load sample workspace data
           </button>
         )}
         {!onboardingComplete && (

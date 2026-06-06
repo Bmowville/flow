@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/Bmowville/flow/actions/workflows/ci.yml/badge.svg)](https://github.com/Bmowville/flow/actions/workflows/ci.yml)
 
-SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, tasks, activity, and integrations. It demonstrates a modern SaaS UI, Next.js App Router architecture, Prisma data modeling, and testing discipline.
+SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, tasks, activity, and integrations. The app uses a modern SaaS UI, Next.js App Router architecture, Prisma data modeling, and a CI-backed test/build workflow.
 
 **Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
-**Live Demo (production):** https://flow-azure-beta.vercel.app
+**Live deployment:** https://flow-azure-beta.vercel.app
 
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
@@ -18,7 +18,7 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 - Unit tests (Vitest) and E2E tests (Playwright)
 
 ## Technical review path
-1. Open the live demo and sign in with the demo credentials.
+1. Open the live deployment and sign in with the seeded account credentials.
 2. Switch workspaces to confirm preferences and workspace state persist.
 3. Add or update a task, then review the activity timeline.
 4. Toggle an integration to see simulated connected/disconnected states.
@@ -26,7 +26,7 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 
 ## Quality signals
 - CI runs lint, typecheck, unit tests, Prisma generation, and production build.
-- Playwright coverage exercises the browser-level demo path.
+- Playwright coverage exercises the browser-level signed-in path.
 - Local SQLite and production Postgres schemas are split for realistic deployment setup.
 - CI checks that local SQLite and production Postgres Prisma model definitions stay in sync.
 
@@ -58,8 +58,8 @@ DATABASE_URL="file:./dev.db"
 
 Keep `NEXTAUTH_SECRET` stable between restarts (changing it will invalidate existing sessions and require clearing auth cookies).
 
-Demo credentials:
-- Email: `demo@signalboard.ai`
+Seeded account credentials:
+- Email: `ops@signalboard.local`
 - Password: `signalboard`
 
 Optional:
@@ -106,15 +106,15 @@ npm run test:e2e
 	- `PRISMA_SCHEMA=prisma/postgres/schema.prisma`
 	- `GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET` (optional)
 4. Deploy. Vercel runs `vercel-build`, which executes `npm run db:generate && npm run db:deploy && next build`.
-5. First login auto-seeds demo data if the database is empty.
+5. First login auto-seeds sample workspace data if the database is empty.
 
 Prisma production verification:
 - `vercel-build` runs `prisma migrate deploy --schema prisma/postgres/schema.prisma` via `npm run db:deploy`.
 - `DATABASE_URL` in Vercel must start with `postgresql://` or `postgres://`.
 
-## Demo Login
+## Seeded Login
 - Go to https://flow-azure-beta.vercel.app/signin
-- Use the demo credentials shown on the sign-in page.
+- Use the seeded credentials shown on the sign-in page.
 
 ## Production Note
 `NEXTAUTH_URL` must match the production domain exactly.
@@ -128,17 +128,17 @@ If Vercel Deployment Protection (Vercel Authentication) is enabled, public reque
 2. Disable “Vercel Authentication” for Production (or create a Shareable Link if keeping protection on).
 3. Redeploy after changing protection, then verify `/api/health` is publicly reachable.
 
-## Resetting Demo Data
-Use the Settings page reset action (POST `/api/reset`) to rebuild both demo workspaces.
+## Resetting Sample Data
+Use the Settings page reset action (POST `/api/reset`) to rebuild both sample workspaces.
 
 ## Personalization
-SignalBoard stores a demo display name in localStorage. The first-run prompt lets you set it, and the Settings → Reset demo action clears it so the onboarding prompt appears again.
+SignalBoard stores a sample display name in localStorage. The first-run prompt lets you set it, and the Settings reset action clears it so the onboarding prompt appears again.
 
-## Demo tour + personalization
-The Overview page includes a skippable quick tour. Restart it from Settings → Demo controls, and use “Clear personalization” to return to the default demo user.
+## Guided Tour + Personalization
+The Overview page includes a skippable quick tour. Restart it from Settings, and use “Clear personalization” to return to the default sample user.
 
-## Demo storyline
-- Click “Start demo” on Overview to load sample data.
+## Workflow Storyline
+- Click “Load sample workspace data” on Overview to load sample data.
 - Use the command palette (Press `/` or Cmd/Ctrl+K) to jump between pages.
 - Open the “?” icon in the header to see what’s simulated vs real.
 
@@ -151,7 +151,7 @@ The Overview page includes a skippable quick tour. Restart it from Settings → 
 ## Architecture
 - Next.js App Router + TypeScript UI
 - Prisma ORM with Postgres in production, SQLite locally
-- NextAuth credentials for demo authentication
+- NextAuth credentials for seeded account authentication
 - Vitest + Playwright for tests
 
 See `docs/architecture.md` for the data model, route boundaries, and deployment split.

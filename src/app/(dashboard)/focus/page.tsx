@@ -57,7 +57,7 @@ export default function FocusPage() {
           {state.focusBlocks.length === 0 && (
             <div className="text-sm text-slate-500 dark:text-slate-300">
               <p>
-                No focus blocks scheduled yet. Protecting deep work keeps outreach and prep on track.
+                No focus blocks scheduled yet. Protecting deep work keeps operations and planning on track.
               </p>
               <button
                 type="button"

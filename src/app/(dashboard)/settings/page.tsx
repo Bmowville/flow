@@ -14,7 +14,7 @@ export default function SettingsPage() {
     restartTour,
     handleWorkspaceSwitch,
     handleLoadSampleData,
-    handleResetDemo,
+    handleResetSampleData,
   } = useAppShell();
   const [nameDraft, setNameDraft] = useState(displayName);
 
@@ -30,7 +30,7 @@ export default function SettingsPage() {
               Customize your SignalBoard workspace
             </h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-              Manage workspaces, integrations, and reset demo data when you want a fresh walkthrough.
+              Manage workspaces, integrations, and sample data when you want a fresh workspace state.
             </p>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900/10 text-slate-700 dark:bg-white/10 dark:text-white">
@@ -122,7 +122,7 @@ export default function SettingsPage() {
             type="button"
             onClick={() => {
               saveDisplayName(nameDraft);
-              setNameDraft(nameDraft.trim() || "Demo User");
+              setNameDraft(nameDraft.trim() || "Avery Morgan");
             }}
             className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white dark:bg-white dark:text-slate-900"
           >
@@ -135,10 +135,10 @@ export default function SettingsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-              Demo controls
+              Sample data controls
             </h3>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
-              Load data, reset the demo, or restart the tour experience.
+              Load data, reset sample workspace state, or restart the tour experience.
             </p>
           </div>
         </div>
@@ -166,26 +166,26 @@ export default function SettingsPage() {
           </button>
           <button
             type="button"
-            onClick={() => handleResetDemo()}
+            onClick={() => handleResetSampleData()}
             className="inline-flex items-center gap-2 rounded-full bg-rose-500 px-4 py-2 text-xs font-semibold text-white"
           >
             <RefreshCcw size={14} />
-            Reset demo
+            Reset sample data
           </button>
         </div>
       </section>
 
       <section className="rounded-2xl border border-white/10 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:bg-slate-950/60 dark:text-slate-300">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-          About this demo
+          About SignalBoard
         </h3>
         <p className="mt-2">
-          SignalBoard simulates workspace workflows, outreach tracking, and focus planning.
+          SignalBoard models workspace workflows, activity tracking, and focus planning.
         </p>
         <ul className="mt-3 list-disc space-y-2 pl-5">
-          <li>Integrations are mocked for demo clarity.</li>
+          <li>Integrations are mocked for local testing and repeatable resets.</li>
           <li>Use “Load sample data” to populate a fuller workspace.</li>
-          <li>Use “Reset demo” to restore the original two-workspace seed.</li>
+          <li>Use “Reset sample data” to restore the original two-workspace seed.</li>
         </ul>
       </section>
     </div>

@@ -22,8 +22,8 @@ export async function POST(request: Request) {
     const operationsWorkspace = memberships.find(
       (membership) =>
         membership.workspace.name === "Operations Hub" ||
-        membership.workspace.name === "Recruiting Ops" ||
-        membership.workspace.slug.startsWith("recruiting-ops")
+        membership.workspace.name === "Operations Hub" ||
+        membership.workspace.slug.startsWith("operations-hub")
     );
 
     if (operationsWorkspace && operationsWorkspace.workspace.name !== "Operations Hub") {
@@ -52,15 +52,15 @@ export async function POST(request: Request) {
       await prisma.task.createMany({
         data: [
           {
-            title: "Send stakeholder follow-up",
-            detail: "Reply with updated project link",
+            title: "Send stakeholder update",
+            detail: "Share updated operations summary",
             completed: true,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
           },
           {
-            title: "Draft outreach cadence",
-            detail: "Prepare a 3-touch outreach sequence",
+            title: "Draft account review cadence",
+            detail: "Prepare a 3-step review sequence",
             completed: false,
             userId,
             workspaceId: primaryWorkspace.workspace.id,
@@ -80,17 +80,17 @@ export async function POST(request: Request) {
       await prisma.activity.createMany({
         data: [
           {
-            title: "Project link viewed",
-            detail: "2 contacts opened the project link this morning",
+            title: "Status summary viewed",
+            detail: "2 stakeholders opened the weekly summary this morning",
             type: "project",
             userId,
             workspaceId: primaryWorkspace.workspace.id,
             createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 2),
           },
           {
-            title: "Outreach follow-up",
-            detail: "3 follow-ups scheduled for this afternoon",
-            type: "outreach",
+            title: "Account follow-up",
+            detail: "3 account reviews scheduled for this afternoon",
+            type: "operations",
             userId,
             workspaceId: primaryWorkspace.workspace.id,
             createdAt: new Date(now.getTime() - 1000 * 60 * 30),
@@ -110,10 +110,10 @@ export async function POST(request: Request) {
     if (shouldSeedFocus && focusCount === 0) {
       await prisma.focusBlock.create({
         data: {
-          title: "Interview prep deep work",
+          title: "Incident review deep work",
           startAt: focusStart,
           endAt: focusEnd,
-          notes: "Review system design prompts",
+          notes: "Review reliability notes and follow-up actions",
           userId,
           workspaceId: primaryWorkspace.workspace.id,
         },
@@ -128,9 +128,9 @@ export async function POST(request: Request) {
       if (mode === "pipeline-single" && pipelineCount < 6) {
         await prisma.pipelineRole.create({
           data: {
-            title: "Senior Frontend Engineer",
+            title: "Billing QA rollout",
             company: "Northwind",
-            stage: "Screen",
+            stage: "Review",
             priority: "High",
             workspaceId: operationsWorkspace.workspace.id,
           },
@@ -139,16 +139,16 @@ export async function POST(request: Request) {
         await prisma.pipelineRole.createMany({
           data: [
             {
-              title: "Senior Frontend Engineer",
+              title: "Billing QA rollout",
               company: "Northwind",
-              stage: "Screen",
+              stage: "Review",
               priority: "High",
               workspaceId: operationsWorkspace.workspace.id,
             },
             {
-              title: "Product Engineer",
+              title: "Customer health sync",
               company: "Fabrikam",
-              stage: "Onsite",
+              stage: "Active",
               priority: "Medium",
               workspaceId: operationsWorkspace.workspace.id,
             },

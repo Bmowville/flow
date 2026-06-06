@@ -18,8 +18,8 @@ const insights = [
   {
     id: "insight-3",
     title: "Pipeline Coverage",
-    value: "24 roles",
-    detail: "12 active, 8 warm, 4 planned",
+    value: "24 initiatives",
+    detail: "12 active, 8 queued, 4 planned",
     icon: Target,
   },
 ];

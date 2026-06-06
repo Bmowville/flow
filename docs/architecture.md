@@ -1,6 +1,6 @@
 # SignalBoard Architecture
 
-SignalBoard is a Next.js App Router application backed by Prisma. It is built as a production-style demo: local development uses SQLite, while Vercel production is configured for Postgres.
+SignalBoard is a Next.js App Router application backed by Prisma. Local development uses SQLite, while Vercel production is configured for Postgres.
 
 ## Runtime Boundaries
 
@@ -34,16 +34,16 @@ Model definitions should remain identical across both files. CI runs:
 npm run validate:schema
 ```
 
-This check prevents the local demo schema and production schema from drifting as the app evolves.
+This check prevents the local SQLite schema and production schema from drifting as the app evolves.
 
-## Demo Data Lifecycle
+## Seed Data Lifecycle
 
-Demo data can be created three ways:
+Sample data can be created three ways:
 - `npm run db:seed` seeds local development data.
-- First dashboard load creates demo workspaces if the authenticated user has none.
-- `POST /api/seed` adds missing demo tasks, activity, focus blocks, and pipeline roles by mode.
+- First dashboard load creates sample workspaces if the authenticated user has none.
+- `POST /api/seed` adds missing sample tasks, activity, focus blocks, and pipeline roles by mode.
 
-The reset endpoint rebuilds the demo state for the signed-in user. This keeps the public demo easy to return to a known state after testing.
+The reset endpoint rebuilds the sample state for the signed-in user. This keeps the public deployment easy to return to a known state after testing.
 
 ## Validation Coverage
 

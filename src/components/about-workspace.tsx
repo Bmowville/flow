@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { X } from "lucide-react";
 
-type AboutDemoDrawerProps = {
+type AboutWorkspaceDrawerProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export function AboutDemoDrawer({ open, onClose }: AboutDemoDrawerProps) {
+export function AboutWorkspaceDrawer({ open, onClose }: AboutWorkspaceDrawerProps) {
   if (!open) return null;
 
   return (
@@ -16,7 +16,7 @@ export function AboutDemoDrawer({ open, onClose }: AboutDemoDrawerProps) {
       <div className="h-full w-full max-w-md overflow-y-auto bg-white/95 p-6 shadow-xl dark:bg-slate-950/95">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-            About this demo
+            About SignalBoard
           </h2>
           <button
             type="button"
@@ -31,7 +31,7 @@ export function AboutDemoDrawer({ open, onClose }: AboutDemoDrawerProps) {
           <div>
             <p className="font-semibold text-slate-900 dark:text-white">Simulated vs. real</p>
             <ul className="mt-2 list-disc space-y-2 pl-5">
-              <li>Integrations are mocked to keep the demo fast.</li>
+              <li>Integrations are mocked to keep the sample workspace fast.</li>
               <li>Data resets to a seeded workspace for walkthroughs.</li>
               <li>No external CRM systems are connected.</li>
             </ul>

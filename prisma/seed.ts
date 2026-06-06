@@ -4,10 +4,10 @@ const prisma = new PrismaClient();
 
 async function main() {
   const user = await prisma.user.upsert({
-    where: { email: "demo@signalboard.ai" },
+    where: { email: "ops@signalboard.local" },
     update: {},
     create: {
-      email: "demo@signalboard.ai",
+      email: "ops@signalboard.local",
       name: "Avery Morgan",
       image: "",
     },
@@ -19,7 +19,7 @@ async function main() {
     create: {
       name: "SignalBoard HQ",
       slug: "signalboard",
-      owner: "demo@signalboard.ai",
+      owner: "ops@signalboard.local",
       widgets: {
         create: [
           {
@@ -41,7 +41,7 @@ async function main() {
             position: 2,
           },
           {
-            title: "Client Outreach",
+            title: "Customer Signals",
             type: "crm",
             status: "healthy",
             value: "12 follow-ups",
@@ -70,9 +70,9 @@ async function main() {
       },
       pipelineRoles: {
         create: [
-          { title: "Senior Frontend Engineer", company: "Northwind", stage: "Screen", priority: "High" },
-          { title: "Product Engineer", company: "Fabrikam", stage: "Onsite", priority: "Medium" },
-          { title: "Fullstack Engineer", company: "Contoso", stage: "Applied", priority: "Low" }
+          { title: "Billing QA rollout", company: "Northwind", stage: "Review", priority: "High" },
+          { title: "Customer health sync", company: "Fabrikam", stage: "Active", priority: "Medium" },
+          { title: "Usage reporting cleanup", company: "Contoso", stage: "Planned", priority: "Low" }
         ],
       },
       focusBlocks: {
@@ -85,7 +85,7 @@ async function main() {
             userId: user.id,
           },
           {
-            title: "Interview prep",
+            title: "Incident review",
             startAt: new Date(Date.now() + 1000 * 60 * 60 * 5),
             endAt: new Date(Date.now() + 1000 * 60 * 60 * 6),
             notes: "System design review",
@@ -121,8 +121,8 @@ async function main() {
             userId: user.id,
           },
           {
-            title: "Upcoming interviews",
-            detail: "3 interviews scheduled this week",
+            title: "Upcoming reviews",
+            detail: "3 operating reviews scheduled this week",
             type: "calendar",
             userId: user.id,
           },
@@ -134,13 +134,13 @@ async function main() {
       tasks: {
         create: [
           {
-            title: "Polish resume narrative",
+            title: "Review workspace metrics",
             detail: "Align outcomes with stakeholder feedback",
             userId: user.id,
           },
           {
             title: "Record product walkthrough",
-            detail: "Capture 90-second demo clip",
+            detail: "Capture 90-second feature update",
             userId: user.id,
           },
         ],
@@ -155,7 +155,7 @@ async function main() {
 
   const operationsWorkspace = await prisma.workspace.findFirst({
     where: {
-      OR: [{ slug: "operations-hub" }, { slug: "recruiting-ops" }],
+      OR: [{ slug: "operations-hub" }],
     },
   });
 
@@ -169,14 +169,14 @@ async function main() {
       data: {
       name: "Operations Hub",
       slug: "operations-hub",
-      owner: "demo@signalboard.ai",
+      owner: "ops@signalboard.local",
       widgets: {
         create: [
           {
             title: "Pipeline Coverage",
             type: "pipeline",
             status: "healthy",
-            value: "24 roles",
+            value: "24 initiatives",
             description: "12 active, 8 warm, 4 planned",
             trend: "+6%",
             position: 1,
@@ -188,14 +188,14 @@ async function main() {
       },
       pipelineRoles: {
         create: [
-          { title: "Staff Frontend", company: "Adventure Works", stage: "Screen", priority: "High" },
+          { title: "Data quality rollout", company: "Adventure Works", stage: "Review", priority: "High" },
         ],
       },
       automations: {
         create: [
           {
-            title: "Auto-score inbound roles",
-            description: "Tag inbound roles by match score",
+            title: "Auto-score account signals",
+            description: "Tag account updates by urgency and owner",
             status: "Enabled",
           },
         ],

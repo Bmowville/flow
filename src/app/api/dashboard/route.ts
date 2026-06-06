@@ -22,8 +22,8 @@ export async function GET() {
 
     const legacyOperationsMembership = memberships.find(
       (membership) =>
-        membership.workspace.name === "Recruiting Ops" ||
-        membership.workspace.slug.startsWith("recruiting-ops")
+        membership.workspace.name === "Operations Hub" ||
+        membership.workspace.slug.startsWith("operations-hub")
     );
 
     if (legacyOperationsMembership) {
@@ -56,8 +56,8 @@ export async function GET() {
                   title: "Pipeline Coverage",
                   type: "pipeline",
                   status: "healthy",
-                  value: "24 roles",
-                  description: "12 active, 8 warm, 4 planned",
+                  value: "24 initiatives",
+                  description: "12 active, 8 queued, 4 planned",
                   trend: "+6%",
                   position: 1,
                 },
@@ -71,39 +71,39 @@ export async function GET() {
             pipelineRoles: {
               create: [
                 {
-                  title: "Staff Frontend",
+                  title: "Data quality rollout",
                   company: "Adventure Works",
-                  stage: "Screen",
+                  stage: "Review",
                   priority: "High",
                 },
                 {
-                  title: "Senior Frontend Engineer",
+                  title: "Billing QA rollout",
                   company: "Northwind",
-                  stage: "Applied",
+                  stage: "Active",
                   priority: "High",
                 },
                 {
-                  title: "Product Engineer",
+                  title: "Customer health sync",
                   company: "Fabrikam",
-                  stage: "Onsite",
+                  stage: "Active",
                   priority: "Medium",
                 },
                 {
-                  title: "Growth Engineer",
+                  title: "Usage reporting cleanup",
                   company: "Litware",
-                  stage: "Applied",
+                  stage: "Planned",
                   priority: "Low",
                 },
                 {
-                  title: "Design Systems Lead",
+                  title: "Design system migration",
                   company: "Contoso",
-                  stage: "Offer",
+                  stage: "Review",
                   priority: "High",
                 },
                 {
-                  title: "Fullstack Engineer",
+                  title: "Workflow automation pass",
                   company: "Tailspin",
-                  stage: "Screen",
+                  stage: "Queued",
                   priority: "Medium",
                 },
               ],
@@ -111,8 +111,8 @@ export async function GET() {
             automations: {
               create: [
                 {
-                  title: "Auto-score inbound roles",
-                  description: "Tag inbound roles by match score",
+                  title: "Auto-score account signals",
+                  description: "Tag account updates by urgency and owner",
                   status: "Enabled",
                 },
               ],
@@ -159,11 +159,11 @@ export async function GET() {
                   position: 2,
                 },
                 {
-                  title: "Client Outreach",
+                  title: "Customer Signals",
                   type: "crm",
                   status: "healthy",
-                  value: "12 follow-ups",
-                  description: "2 high-priority messages due",
+                  value: "12 updates",
+                  description: "2 high-priority accounts need review",
                   trend: "+9%",
                   position: 3,
                 },
@@ -179,18 +179,18 @@ export async function GET() {
             tasks: {
               create: [
                 {
-                  title: "Polish resume narrative",
+                  title: "Review workspace metrics",
                   detail: "Align outcomes with stakeholder feedback",
                   userId,
                 },
                 {
-                  title: "Send stakeholder follow-up",
-                  detail: "Reply with updated project link",
+                  title: "Send stakeholder update",
+                  detail: "Share updated operations summary",
                   userId,
                 },
                 {
-                  title: "Draft outreach cadence",
-                  detail: "Prepare a 3-touch outreach sequence",
+                  title: "Draft account review cadence",
+                  detail: "Prepare a 3-step review sequence",
                   userId,
                 },
               ],
@@ -198,10 +198,10 @@ export async function GET() {
             focusBlocks: {
               create: [
                 {
-                  title: "Interview prep deep work",
+                  title: "Incident review deep work",
                   startAt: new Date(Date.now() + 1000 * 60 * 60 * 2),
                   endAt: new Date(Date.now() + 1000 * 60 * 60 * 3),
-                  notes: "Review system design prompts",
+                  notes: "Review reliability notes and follow-up actions",
                   userId,
                 },
               ],
@@ -210,20 +210,20 @@ export async function GET() {
               create: [
                 {
                   title: "Workspace created",
-                  detail: "Demo workspace initialized",
+                  detail: "Sample workspace initialized",
                   type: "seed",
                   userId,
                 },
                 {
-                  title: "Project link viewed",
-                  detail: "2 contacts opened the project link this morning",
+                  title: "Status summary viewed",
+                  detail: "2 stakeholders opened the weekly summary this morning",
                   type: "project",
                   userId,
                 },
                 {
-                  title: "Outreach follow-up",
-                  detail: "3 follow-ups scheduled for this afternoon",
-                  type: "outreach",
+                  title: "Account follow-up",
+                  detail: "3 account reviews scheduled for this afternoon",
+                  type: "operations",
                   userId,
                 },
               ],
@@ -245,8 +245,8 @@ export async function GET() {
                   title: "Pipeline Coverage",
                   type: "pipeline",
                   status: "healthy",
-                  value: "24 roles",
-                  description: "12 active, 8 warm, 4 planned",
+                  value: "24 initiatives",
+                  description: "12 active, 8 queued, 4 planned",
                   trend: "+6%",
                   position: 1,
                 },
@@ -260,39 +260,39 @@ export async function GET() {
             pipelineRoles: {
               create: [
                 {
-                  title: "Staff Frontend",
+                  title: "Data quality rollout",
                   company: "Adventure Works",
-                  stage: "Screen",
+                  stage: "Review",
                   priority: "High",
                 },
                 {
-                  title: "Senior Frontend Engineer",
+                  title: "Billing QA rollout",
                   company: "Northwind",
-                  stage: "Applied",
+                  stage: "Active",
                   priority: "High",
                 },
                 {
-                  title: "Product Engineer",
+                  title: "Customer health sync",
                   company: "Fabrikam",
-                  stage: "Onsite",
+                  stage: "Active",
                   priority: "Medium",
                 },
                 {
-                  title: "Growth Engineer",
+                  title: "Usage reporting cleanup",
                   company: "Litware",
-                  stage: "Applied",
+                  stage: "Planned",
                   priority: "Low",
                 },
                 {
-                  title: "Design Systems Lead",
+                  title: "Design system migration",
                   company: "Contoso",
-                  stage: "Offer",
+                  stage: "Review",
                   priority: "High",
                 },
                 {
-                  title: "Fullstack Engineer",
+                  title: "Workflow automation pass",
                   company: "Tailspin",
-                  stage: "Screen",
+                  stage: "Queued",
                   priority: "Medium",
                 },
               ],
@@ -300,8 +300,8 @@ export async function GET() {
             automations: {
               create: [
                 {
-                  title: "Auto-score inbound roles",
-                  description: "Tag inbound roles by match score",
+                  title: "Auto-score account signals",
+                  description: "Tag account updates by urgency and owner",
                   status: "Enabled",
                 },
               ],

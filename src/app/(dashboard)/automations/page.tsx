@@ -116,7 +116,7 @@ export default function AutomationsPage() {
           {state.automations.length === 0 && (
             <div className="text-sm text-slate-500 dark:text-slate-300">
               <p>
-                No automations yet. Rules help teams stay consistent with outreach and follow-ups.
+                No automations yet. Rules help teams stay consistent with operations and follow-ups.
               </p>
               <button
                 type="button"

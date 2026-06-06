@@ -5,10 +5,10 @@ import { useAppShell } from "@/components/app-shell";
 import { cn } from "@/lib/utils";
 
 const stageStyles: Record<string, string> = {
-  Applied: "bg-slate-200/70 text-slate-700 dark:bg-slate-800 dark:text-slate-200",
-  Screen: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-300",
-  Onsite: "bg-amber-500/10 text-amber-600 dark:text-amber-300",
-  Offer: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300",
+  Planned: "bg-slate-200/70 text-slate-700 dark:bg-slate-800 dark:text-slate-200",
+  Queued: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-300",
+  Active: "bg-amber-500/10 text-amber-600 dark:text-amber-300",
+  Review: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300",
 };
 
 const priorityStyles: Record<string, string> = {
@@ -43,10 +43,10 @@ export default function PipelinePage() {
               Pipeline health
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Role cadence & opportunity mix
+              Initiative cadence & priority mix
             </h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-              Monitor active roles, stages, and priority alignment for the current workspace.
+              Monitor active initiatives, stages, and priority alignment for the current workspace.
             </p>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500">
@@ -72,7 +72,7 @@ export default function PipelinePage() {
               ))}
               {Object.keys(stageSummary).length === 0 && (
                 <span className="text-sm text-slate-500 dark:text-slate-300">
-                  No pipeline roles yet.
+                  No pipeline initiatives yet.
                 </span>
               )}
             </div>
@@ -95,7 +95,7 @@ export default function PipelinePage() {
               ))}
               {Object.keys(prioritySummary).length === 0 && (
                 <span className="text-sm text-slate-500 dark:text-slate-300">
-                  Priorities update after roles are added.
+                  Priorities update after initiatives are added.
                 </span>
               )}
             </div>
@@ -106,11 +106,11 @@ export default function PipelinePage() {
       <section className="rounded-2xl border border-white/10 bg-white/80 p-6 shadow-sm dark:bg-slate-950/60">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Active roles
+            Active initiatives
           </h3>
           <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white dark:bg-white dark:text-slate-900">
             <Target size={14} />
-            {state.pipelineRoles.length} tracked roles
+            {state.pipelineRoles.length} tracked initiatives
           </div>
         </div>
         <div className="mt-4 space-y-3">
@@ -146,7 +146,7 @@ export default function PipelinePage() {
           {state.pipelineRoles.length === 0 && (
             <div className="flex flex-col gap-3 text-sm text-slate-500 dark:text-slate-300">
               <p>
-                No roles tracked yet. Add your next target role to start building momentum.
+                No initiatives tracked yet. Add the next workspace initiative to start building momentum.
               </p>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -154,14 +154,14 @@ export default function PipelinePage() {
                   onClick={() => handleAddSampleRoles()}
                   className="inline-flex w-fit items-center gap-2 rounded-full bg-indigo-500 px-4 py-2 text-xs font-semibold text-white"
                 >
-                  Load sample roles
+                  Load sample initiatives
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAddSingleRole()}
                   className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-200"
                 >
-                  Add role
+                  Add initiative
                 </button>
               </div>
             </div>

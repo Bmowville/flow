@@ -7,7 +7,7 @@ import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { ToastStack, type Toast } from "@/components/toast";
 import { CommandPalette, type CommandPaletteItem } from "@/components/command-palette";
-import { AboutDemoDrawer } from "@/components/about-demo";
+import { AboutWorkspaceDrawer } from "@/components/about-workspace";
 import type {
   Activity,
   Automation,
@@ -32,12 +32,12 @@ const emptyState = {
   automations: [] as Automation[],
 };
 
-const DEFAULT_DISPLAY_NAME = "Demo User";
+const DEFAULT_DISPLAY_NAME = "Avery Morgan";
 const DISPLAY_NAME_KEY = "signalboard.displayName";
 const ONBOARDING_KEY = "signalboard.onboardingComplete";
 const TOUR_COMPLETED_KEY = "signalboard.tourCompleted";
 const TOUR_DISMISSED_KEY = "signalboard.tourDismissed";
-const DEMO_LOADED_KEY = "signalboard.demoLoaded";
+const SAMPLE_DATA_LOADED_KEY = "signalboard.sampleDataLoaded";
 
 type DashboardState = typeof emptyState;
 
@@ -56,7 +56,7 @@ type AppShellContextValue = {
   completeTour: () => void;
   dismissTour: () => void;
   restartTour: () => void;
-  demoLoaded: boolean;
+  sampleDataLoaded: boolean;
   handleLoadSampleData: () => Promise<void>;
   handleAddSampleRoles: () => Promise<void>;
   handleAddSingleRole: () => Promise<void>;
@@ -69,7 +69,7 @@ type AppShellContextValue = {
   handleCreateAutomation: (title: string, description: string) => Promise<void>;
   handleToggleAutomation: (id: string) => Promise<void>;
   handleDeleteAutomation: (id: string) => Promise<void>;
-  handleResetDemo: () => Promise<void>;
+  handleResetSampleData: () => Promise<void>;
 };
 
 const AppShellContext = createContext<AppShellContextValue | null>(null);
@@ -95,7 +95,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [tourCompleted, setTourCompleted] = useState(false);
   const [tourDismissed, setTourDismissed] = useState(false);
-  const [demoLoaded, setDemoLoaded] = useState(false);
+  const [sampleDataLoaded, setSampleDataLoaded] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
@@ -136,7 +136,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     const storedOnboarding = window.localStorage.getItem(ONBOARDING_KEY);
     const storedTourCompleted = window.localStorage.getItem(TOUR_COMPLETED_KEY);
     const storedTourDismissed = window.localStorage.getItem(TOUR_DISMISSED_KEY);
-    const storedDemoLoaded = window.localStorage.getItem(DEMO_LOADED_KEY);
+    const storedSampleDataLoaded = window.localStorage.getItem(SAMPLE_DATA_LOADED_KEY);
     if (storedName) {
       setDisplayName(storedName);
     }
@@ -149,8 +149,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     if (storedTourDismissed === "true") {
       setTourDismissed(true);
     }
-    if (storedDemoLoaded === "true") {
-      setDemoLoaded(true);
+    if (storedSampleDataLoaded === "true") {
+      setSampleDataLoaded(true);
     }
   }, []);
 
@@ -210,10 +210,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       body: JSON.stringify({ mode: "full" }),
     });
     if (typeof window !== "undefined") {
-      window.localStorage.setItem(DEMO_LOADED_KEY, "true");
+      window.localStorage.setItem(SAMPLE_DATA_LOADED_KEY, "true");
     }
-    setDemoLoaded(true);
-    pushToast("Demo loaded — explore Pipeline + Momentum + Focus", "success");
+    setSampleDataLoaded(true);
+    pushToast("Sample data loaded — explore Pipeline + Momentum + Focus", "success");
     await loadDashboard();
   }, [loadDashboard, pushToast]);
 
@@ -314,21 +314,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await loadDashboard();
   };
 
-  const handleResetDemo = useCallback(async () => {
+  const handleResetSampleData = useCallback(async () => {
     await fetch("/api/reset", { method: "POST" });
-    pushToast("Demo reset", "warning");
+    pushToast("Sample data reset", "warning");
     if (typeof window !== "undefined") {
       window.localStorage.removeItem(DISPLAY_NAME_KEY);
       window.localStorage.removeItem(ONBOARDING_KEY);
       window.localStorage.removeItem(TOUR_COMPLETED_KEY);
       window.localStorage.removeItem(TOUR_DISMISSED_KEY);
-      window.localStorage.removeItem(DEMO_LOADED_KEY);
+      window.localStorage.removeItem(SAMPLE_DATA_LOADED_KEY);
     }
     setDisplayName(DEFAULT_DISPLAY_NAME);
     setOnboardingComplete(false);
     setTourCompleted(false);
     setTourDismissed(false);
-    setDemoLoaded(false);
+    setSampleDataLoaded(false);
     await loadDashboard();
   }, [loadDashboard, pushToast]);
 
@@ -376,12 +376,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         label: "Add a priority task",
         onSelect: () =>
           handleCreateTask(
-            "Send stakeholder follow-up",
-            "Share updated project link"
+            "Review weekly operations digest",
+            "Share updated metrics with the team"
           ),
       },
-      { id: "demo-load", label: "Load sample data", onSelect: handleLoadSampleData },
-      { id: "demo-reset", label: "Reset demo", onSelect: handleResetDemo },
+      { id: "sample-load", label: "Load sample data", onSelect: handleLoadSampleData },
+      { id: "sample-reset", label: "Reset sample data", onSelect: handleResetSampleData },
       { id: "tour-restart", label: "Restart quick tour", onSelect: restartTour },
       { id: "personalization-clear", label: "Clear personalization", onSelect: clearPersonalization },
     ];
@@ -391,7 +391,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     handleWorkspaceSwitch,
     handleCreateTask,
     handleLoadSampleData,
-    handleResetDemo,
+    handleResetSampleData,
     restartTour,
     clearPersonalization,
   ]);
@@ -441,7 +441,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         completeTour,
         dismissTour,
         restartTour,
-        demoLoaded,
+        sampleDataLoaded,
         handleLoadSampleData,
         handleAddSampleRoles,
         handleAddSingleRole,
@@ -454,7 +454,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         handleCreateAutomation,
         handleToggleAutomation,
         handleDeleteAutomation,
-        handleResetDemo,
+        handleResetSampleData,
       }}
     >
       <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-100 px-6 py-8 text-slate-900 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
@@ -464,7 +464,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           items={commandItems}
           onClose={() => setPaletteOpen(false)}
         />
-        <AboutDemoDrawer open={aboutOpen} onClose={() => setAboutOpen(false)} />
+        <AboutWorkspaceDrawer open={aboutOpen} onClose={() => setAboutOpen(false)} />
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
           <Header
             searchQuery={searchQuery}

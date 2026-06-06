@@ -25,10 +25,10 @@ export default function MomentumPage() {
               Momentum
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Keep the outreach cadence climbing
+              Keep the operations cadence moving
             </h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
-              Track your activity streak, completed tasks, and outreach touchpoints.
+              Track your activity streak, completed tasks, and operational touchpoints.
             </p>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-300">
               Momentum highlights signals that matter in active workflows: responsiveness, consistency, and follow-through.
@@ -76,7 +76,7 @@ export default function MomentumPage() {
               {state.pipelineRoles.length}
             </p>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-300">
-              Roles progressing across stages
+              Initiatives progressing across stages
             </p>
             <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
               {updatedLabel}
@@ -95,7 +95,7 @@ export default function MomentumPage() {
           ))}
           {filteredTasks.length === 0 && (
             <li>
-              No momentum tasks yet. Load sample data to see a full demo.
+              No momentum tasks yet. Load sample data to populate this workspace.
             </li>
           )}
         </ul>

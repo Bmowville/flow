@@ -80,7 +80,7 @@ export function Sidebar({
           Workflow insight
         </p>
         <p className="mt-2">
-          SignalBoard simulates prioritization, outreach sequencing, and focus
+          SignalBoard models prioritization, operations sequencing, and focus
           scoring for active workspaces.
         </p>
       </div>

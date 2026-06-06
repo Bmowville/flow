@@ -39,7 +39,7 @@ export function Header({ searchQuery, onSearchChange, displayName, onOpenAbout }
           type="button"
           onClick={onOpenAbout}
           className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/80 text-slate-700 shadow-sm transition hover:bg-white dark:bg-slate-900/70 dark:text-slate-200"
-          aria-label="About this demo"
+          aria-label="About SignalBoard"
         >
           <HelpCircle size={16} />
         </button>
@@ -48,13 +48,13 @@ export function Header({ searchQuery, onSearchChange, displayName, onOpenAbout }
         </button>
         <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white shadow-sm dark:bg-white dark:text-slate-900">
           <CircleUserRound size={16} />
-          {displayName || "Demo User"}
+          {displayName || "Avery Morgan"}
         </div>
         <span
-          title="Signed in as a demo account"
+          title="Signed in with the seeded account"
           className="rounded-full border border-white/10 bg-white/70 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
         >
-          Demo
+          Sample
         </span>
         <button
           type="button"

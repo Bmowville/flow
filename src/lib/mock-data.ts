@@ -25,10 +25,10 @@ export const widgets = [
   },
   {
     id: "widget-3",
-    title: "Client Outreach",
+    title: "Customer Signals",
     status: "healthy",
-    value: "12 follow-ups",
-    description: "2 high-priority messages due",
+    value: "12 updates",
+    description: "2 high-priority accounts need review",
     trend: "+9%",
   },
   {
@@ -51,10 +51,10 @@ export const timeline = [
   },
   {
     id: "tl-2",
-    title: "Outreach pipeline refreshed",
-    detail: "5 new inbound messages triaged",
+    title: "Customer signal queue refreshed",
+    detail: "5 account updates triaged",
     time: formatRelativeTime(new Date(Date.now() - 1000 * 60 * 45)),
-    label: "Outreach",
+    label: "Operations",
   },
   {
     id: "tl-3",
@@ -65,10 +65,10 @@ export const timeline = [
   },
   {
     id: "tl-4",
-    title: "Project link shared",
-    detail: "Sent SignalBoard demo to 4 contacts",
+    title: "Weekly status shared",
+    detail: "Published the SignalBoard operations summary",
     time: formatRelativeTime(new Date(Date.now() - 1000 * 60 * 220)),
-    label: "Outreach",
+    label: "Operations",
   },
 ];
 
@@ -102,20 +102,20 @@ export const integrations = [
 export const tasks = [
   {
     id: "task-1",
-    title: "Polish resume narrative",
-    detail: "Align outcomes with stakeholder feedback",
+    title: "Review workspace metrics",
+    detail: "Align weekly outcomes with stakeholder feedback",
     due: "Today 5:00 PM",
   },
   {
     id: "task-2",
     title: "Record product walkthrough",
-    detail: "Capture 90-second demo clip",
+    detail: "Capture 90-second feature update",
     due: "Tomorrow 11:00 AM",
   },
   {
     id: "task-3",
-    title: "Schedule networking follow-ups",
-    detail: "Send 5 personalized messages",
+    title: "Schedule customer follow-ups",
+    detail: "Review 5 priority account updates",
     due: "Fri 2:00 PM",
   },
 ];

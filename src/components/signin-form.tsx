@@ -12,7 +12,7 @@ type SignInFormProps = {
 export function SignInForm({ showGitHub }: SignInFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDemoSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleCredentialSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.currentTarget);
@@ -48,35 +48,35 @@ export function SignInForm({ showGitHub }: SignInFormProps) {
 
       <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-400">
         <span className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
-        Demo credentials
+        Seeded account
         <span className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
       </div>
 
-      <form className="space-y-4" onSubmit={handleDemoSignIn}>
+      <form className="space-y-4" onSubmit={handleCredentialSignIn}>
         <div>
           <label
-            htmlFor="demo-email"
+            htmlFor="sample-email"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
           >
             Email
           </label>
           <input
-            id="demo-email"
+            id="sample-email"
             name="email"
             type="email"
-            defaultValue="demo@signalboard.ai"
+            defaultValue="ops@signalboard.local"
             className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-400 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           />
         </div>
         <div>
           <label
-            htmlFor="demo-password"
+            htmlFor="sample-password"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
           >
             Password
           </label>
           <input
-            id="demo-password"
+            id="sample-password"
             name="password"
             type="password"
             defaultValue="signalboard"
@@ -91,12 +91,12 @@ export function SignInForm({ showGitHub }: SignInFormProps) {
           )}
           disabled={isLoading}
         >
-          {isLoading ? "Signing in..." : "Enter demo workspace"}
+          {isLoading ? "Signing in..." : "Enter workspace"}
         </button>
       </form>
 
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        Demo access uses <strong>demo@signalboard.ai</strong> / <strong>signalboard</strong>.
+        Seeded access uses <strong>ops@signalboard.local</strong> / <strong>signalboard</strong>.
       </p>
     </div>
   );
