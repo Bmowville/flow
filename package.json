@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,18 +16,20 @@
     "validate:schema": "node scripts/validate-prisma-schema.mjs",
     "test": "vitest",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "npm run build && playwright test",
     "db:generate": "prisma generate --schema prisma/postgres/schema.prisma",
     "db:deploy": "prisma migrate deploy --schema prisma/postgres/schema.prisma",
     "db:generate:local": "prisma generate --schema prisma/schema.prisma",
+    "db:deploy:local": "prisma migrate deploy --schema prisma/schema.prisma",
     "db:migrate:local": "prisma migrate dev --schema prisma/schema.prisma",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "test:e2e:setup": "npm run db:generate:local && npm run db:deploy:local && npm run db:seed"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
-    "next": "16.2.12",
+    "next": "16.3.4",
     "next-auth": "^4.24.15",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -36,11 +41,11 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^20",
+    "@types/node": "^22.20.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.1.2",
+    "eslint-config-next": "16.3.4",
     "jsdom": "^25.0.1",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
@@ -49,8 +54,9 @@
     "vitest": "^5.0.0"
   },
   "overrides": {
+    "deepmerge-ts": "8.0.0",
     "eslint-plugin-react-hooks": "7.0.1",
     "postcss": "8.5.23",
-    "sharp": "0.35.3"
+    "sharp": "0.35.4"
   }
 }

@@ -5,6 +5,7 @@ test("dashboard renders hero content", async ({ page }) => {
   await page.getByLabel("Email").fill("ops@signalboard.local");
   await page.getByLabel("Password").fill("signalboard");
   await page.getByRole("button", { name: "Enter workspace" }).click();
+  await page.waitForURL("http://127.0.0.1:3100/", { timeout: 30_000 });
 
   await expect(
     page.getByRole("heading", { name: "Full-stack productivity dashboard" })
