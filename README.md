@@ -121,7 +121,9 @@ Prisma production verification:
 - Use the seeded credentials shown on the sign-in page.
 
 ## Production Note
-`NEXTAUTH_URL` must match the production domain exactly.
+In Vercel production, authentication uses the project's stable production domain
+from `VERCEL_PROJECT_PRODUCTION_URL`. `NEXTAUTH_URL` remains the local and preview
+override and must match the URL used for those environments.
 
 ## Health Check
 `/api/health` is publicly accessible and returns JSON confirming DB connectivity.
