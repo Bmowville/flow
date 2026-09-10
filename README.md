@@ -4,7 +4,8 @@
 
 SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, tasks, activity, and integrations. The app uses a modern SaaS UI, Next.js App Router architecture, Prisma data modeling, and a CI-backed test/build workflow.
 
-**Tech Stack:** Next.js App Router, TypeScript, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright  
+**Tech Stack:** Next.js App Router, TypeScript, Node.js 22, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright
+
 **Live deployment:** https://flow-azure-beta.vercel.app
 
 ## Highlights
@@ -31,14 +32,16 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 - CI checks that local SQLite and production Postgres Prisma model definitions stay in sync.
 
 ## Quick Start (Local)
+Use Node.js 22 (see `.nvmrc`).
+
 1) Install dependencies:
-- `npm install`
+- `npm ci`
 
 2) Create `.env.local` from `.env.example` and fill secrets.
 
 3) Initialize SQLite and seed:
 - `npm run db:generate:local`
-- `npm run db:migrate:local`
+- `npm run db:deploy:local`
 - `npm run db:seed`
 
 4) Start the dev server:
@@ -83,6 +86,7 @@ npm run db:seed
 ## Tests
 ```
 npm run test
+npm run test:e2e:setup
 npm run test:e2e
 ```
 

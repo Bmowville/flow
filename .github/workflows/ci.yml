@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - name: Install
         run: npm ci
@@ -33,3 +33,27 @@ jobs:
         run: npm run test:unit
       - name: Build
         run: npm run build
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DATABASE_URL: file:./dev.db
+      NEXTAUTH_URL: http://127.0.0.1:3100
+      NEXTAUTH_SECRET: signalboard-ci-secret
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Prepare test database
+        run: npm run test:e2e:setup
+      - name: Browser workflow
+        run: npm run test:e2e
