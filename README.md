@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Bmowville/flow/actions/workflows/ci.yml/badge.svg)](https://github.com/Bmowville/flow/actions/workflows/ci.yml)
 
-SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, tasks, activity, and integrations. The app uses a modern SaaS UI, Next.js App Router architecture, Prisma data modeling, and a CI-backed test/build workflow.
+SignalBoard is a live, full-stack productivity dashboard with database-backed workspaces, tasks, activity, and integration-status controls. It uses Next.js, Prisma, and automated build and browser checks.
 
 **Tech Stack:** Next.js App Router, TypeScript, Node.js 22, Prisma, SQLite (local) / Postgres (prod), NextAuth, Tailwind, Vitest, Playwright
 
@@ -11,7 +11,7 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 ## Highlights
 - Multi-tenant workspace UI with activity timeline and priority tasks
 - Workspace switcher persisted per user
-- Integrations connect/disconnect with `lastSyncedAt`
+- Integration-status controls saved in the database
 - Tasks CRUD with activity logging
 - Theme toggle with persistent preference
 - Credentials sign-in is the default; GitHub OAuth appears only if configured
@@ -22,8 +22,12 @@ SignalBoard is a full-stack productivity dashboard with DB-backed workspaces, ta
 1. Open the live deployment and sign in with the seeded account credentials.
 2. Switch workspaces to confirm preferences and workspace state persist.
 3. Add or update a task, then review the activity timeline.
-4. Toggle an integration to see simulated connected/disconnected states.
+4. Change an integration's saved status, then reload to confirm that the setting persists.
 5. Review the Prisma schema, seed script, Vitest tests, and Playwright smoke flow.
+
+## Integration controls
+
+The integration page stores a Connected or Disconnected status for each listed service. Changing it saves the new status in the application's database and updates or clears the associated timestamp. The timestamp records the status change, not a completed data sync. These controls do not sign in to an outside service or transfer data to it.
 
 ## Quality signals
 - CI runs lint, typecheck, unit tests, Prisma generation, and production build.
@@ -146,13 +150,13 @@ The Overview page includes a skippable quick tour. Restart it from Settings, and
 ## Workflow Storyline
 - Click “Load sample workspace data” on Overview to load sample data.
 - Use the command palette (Press `/` or Cmd/Ctrl+K) to jump between pages.
-- Open the “?” icon in the header to see what’s simulated vs real.
+- Open the “?” icon in the header for notes on workspace data, integration behavior, and the application stack.
 
 ## What to try in 2 minutes
 1. Sign in and set a display name.
 2. Switch between “SignalBoard HQ” and “Operations Hub”.
 3. Open Pipeline or Momentum and load sample data if needed.
-4. Toggle integrations or add a task to see activity update.
+4. Change an integration's saved status, or add a task and check the activity history.
 
 ## Architecture
 - Next.js App Router + TypeScript UI
